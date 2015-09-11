@@ -1,0 +1,35 @@
+PROJECT(Kovel)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+OPTION(HAIKU_UI "Use Haiku native API" OFF)
+OPTION(WX_UI "Use wxWidgets API" OFF)
+
+FILE(GLOB CORE_SRC "core/*.cpp")
+
+IF(HAIKU_UI)
+	FILE(GLOB UI_SRC "ui/haiku/*.cpp")
+ENDIF()
+
+IF(WX_UI)
+	FILE(GLOB UI_SRC "ui/wx/*.cpp")
+ENDIF()
+
+FILE(GLOB GL_SRC "ui/gl/*.cpp")
+FILE(GLOB EXPORT_SRC "exporter/*.cpp")
+FILE(GLOB CLI_SRC "cli/*.cpp")
+
+SET(KOVEL_SRC ${CORE_SRC} ${UI_SRC} ${GL_SRC} ${EXPORT_SRC})
+
+ADD_EXECUTABLE(Kovel ${KOVEL_SRC})
+ADD_EXECUTABLE(kovelcli ${CLI_SRC})
+
+IF(HAIKU_UI)
+	TARGET_LINK_LIBRARIES(Kovel be root tracker)
+	# Apply icon and Haiku metadata
+ENDIF()
+
+IF(WX_UI)
+	FIND_PACKAGE(wxWidgets)
+	INCLUDE_DIRECTORIES(${wxWidgets_INCLUDE_DIR})
+	TARGET_LINK_LIBRARIES(Kovel ${wxWidgets_LIBRARIES})
+ENDIF()
