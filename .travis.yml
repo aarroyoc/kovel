@@ -1,27 +1,9 @@
-language: cpp
 sudo: required
-compiler:
- - gcc
- - clang
+env:
+ - DOCKER_IMAGE="ubuntu:trusty"
+services:
+ - docker
 install:
- - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
-         sudo apt-get update
-      && sudo apt-get install cmake libwxbase2.8-dev libwxgtk2.8-dev wx2.8-headers wx-common 
-      ;
-   else
-      brew update
-   && brew unlink cmake
-   && brew install cmake
-   && brew install wxmac
-      ;
-   fi
-   
+ - docker pull $DOCKER_IMAGE
 script:
- - cmake . -DWX_UI=ON
- - make
-
-matrix:
- allow_failures:
-  - os: 
-       - osx
-       - linux
+ - docker run -v $PWD:/stuff -t $DOCKER_IMAGE /bin/bash -c "cp -r /stuff/* . && sudo apt-get update && sudo apt-get install cmake libwxgtk3.0-dev libwxbase3.0-dev wx3.0-headers wx-common && cmake . -DWX_UI=ON && make" 
