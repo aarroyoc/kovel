@@ -8,10 +8,8 @@ install:
       wget http://www.cmake.org/files/v3.3/cmake-3.3.1-Linux-i386.tar.gz -O CMAKE.tar.gz
       && tar -xzf CMAKE.tar.gz
       && sudo cp -fR cmake-3.3.1-Linux-i386/* /usr
-      && sudo apt-key adv --fetch-keys http://repos.codelite.org/CodeLite.asc
-      && sudo add-apt-repository -y "deb http://repos.codelite.org/wx3.0.2/ubuntu/ trusty universe"
       && sudo apt-get update
-      && sudo apt-get install cmake libwxbase3.0-0-unofficial libwxgtk-3.0-0-unofficial libwxbase3.0-dev libwxgtk3.0-dev wx3.0-headers wx-common 
+      && sudo apt-get install libwxbase2.8-dev libwxgtk2.8-dev wx2.8-headers wx-common 
       ;
    else
       brew update
