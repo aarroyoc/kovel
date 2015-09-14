@@ -7,7 +7,6 @@ install:
  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
       wget http://www.cmake.org/files/v3.3/cmake-3.3.1-Linux-i386.tar.gz -O CMAKE.tar.gz
       && tar -xzf CMAKE.tar.gz
-      && sudo cp -fR cmake-3.3.1-Linux-i386/* /usr
       && sudo apt-get update
       && sudo apt-get install libwxbase2.8-dev libwxgtk2.8-dev wx2.8-headers wx-common 
       ;
@@ -20,7 +19,7 @@ install:
    fi
    
 script:
- - cmake . -DWX_UI=ON
+ - cmake-3.3.1-Linux-i386/cmake . -DWX_UI=ON
  - make
 
 matrix:
