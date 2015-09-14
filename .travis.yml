@@ -11,7 +11,7 @@ install:
       && sudo apt-key adv --fetch-keys http://repos.codelite.org/CodeLite.asc
       && sudo add-apt-repository -y "deb http://repos.codelite.org/wx3.0.2/ubuntu/ trusty universe"
       && sudo apt-get update
-      && sudo apt-get install cmake libwxbase3.0-dev libwxgtk3.0-dev wx3.0-headers wx-common 
+      && sudo apt-get install cmake libwxbase3.0-0-unofficial libwxgtk-3.0-0-unofficial libwxbase3.0-dev libwxgtk3.0-dev wx3.0-headers wx-common 
       ;
    else
       brew update
