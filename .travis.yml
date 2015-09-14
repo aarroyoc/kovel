@@ -6,4 +6,4 @@ services:
 install:
  - docker pull $DOCKER_IMAGE
 script:
- - docker run -v $PWD:/stuff -t $DOCKER_IMAGE /bin/bash -c "cp -r /stuff/* . && sudo apt-get update && sudo apt-get install cmake libwxgtk3.0-dev libwxbase3.0-dev wx3.0-headers wx-common && cmake . -DWX_UI=ON && make" 
+ - docker run -v $PWD:/stuff -t $DOCKER_IMAGE /bin/bash -c "cp -r /stuff/* . && sudo apt-get update && sudo apt-get install -y cmake libwxgtk3.0-dev libwxbase3.0-dev wx3.0-headers wx-common && cmake . -DWX_UI=ON && make" 
