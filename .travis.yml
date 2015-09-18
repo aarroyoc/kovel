@@ -17,11 +17,11 @@ script:
       ;
       fi
  - if [ "${PKG}" = "DNF" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && dnf -y install cmake gcc-c++ wxGTK-devel"
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && dnf -y install cmake gcc-c++ wxGTK-devel && cmake . -DWX_UI=ON && make"
       ;
    fi
  - if [ "${PKG}" = "ZYPPER" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && zypper refresh && zypper --non-interactive install cmake gcc-c++ wxWidgets-devel"
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && zypper refresh && zypper --non-interactive install cmake gcc-c++ wxWidgets-devel && cmake . -DWX_UI=ON && make"
        ;
    fi
 
