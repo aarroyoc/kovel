@@ -18,6 +18,7 @@ PreviewPanel::PreviewPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY,wxDefault
 	canvas=new wxGLCanvas(this,wxID_ANY,NULL,wxDefaultPosition,wxSize(100,100));
 	ctx=new wxGLContext(canvas);
 	
+	
 	box->Add(canvas,1,wxEXPAND | wxALL, 0);
 	
 	SetSizer(box);
@@ -29,23 +30,14 @@ void PreviewPanel::OnIdle(wxIdleEvent& event)
 {
 	wxClientDC(this);
 	canvas->SetCurrent(*ctx);
-	
-	
-	// CALL GL PREVIEW MODULE HERE
 	gl->Render();
-	
 	canvas->SwapBuffers();
 }
 
 void PreviewPanel::OnPaint(wxPaintEvent& event)
 {
-	//wxMessageBox("PAINT");
 	wxPaintDC(this);
 	canvas->SetCurrent(*ctx);
-	
-	
-	// CALL GL PREVIEW MODULE HERE
 	gl->Render();
-	
 	canvas->SwapBuffers();
 }
