@@ -34,10 +34,12 @@ class ToolPanel : public wxPanel{
 class GridPanel : public wxPanel{
 	public:
 		unsigned short GRID_SIZE = 16;
-		bool GRID[16][16];
+		bool** GRID;
 		GridPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
 		{
+			GRID=(bool**)malloc(sizeof(bool*) * 16);
 			for(int i=0;i<GRID_SIZE;i++){
+				GRID[i]=(bool*)malloc(sizeof(bool) * 16);
 				for(int j=0;j<GRID_SIZE;j++){
 					GRID[i][j]=false;
 				}
@@ -47,6 +49,9 @@ class GridPanel : public wxPanel{
 			
 			Bind(wxEVT_PAINT,&GridPanel::Paint,this,-1);
 			Bind(wxEVT_LEFT_DOWN,&GridPanel::Click,this,-1);
+		}
+		~GridPanel(){
+			free(GRID);
 		}
 		void PaintNow(){
 			wxClientDC dc(this);
