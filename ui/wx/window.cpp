@@ -37,9 +37,9 @@ class GridPanel : public wxPanel{
 		bool** GRID;
 		GridPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
 		{
-			GRID=(bool**)malloc(sizeof(bool*) * 16);
+			GRID=(bool**)malloc(sizeof(bool*) * GRID_SIZE);
 			for(int i=0;i<GRID_SIZE;i++){
-				GRID[i]=(bool*)malloc(sizeof(bool) * 16);
+				GRID[i]=(bool*)malloc(sizeof(bool) * GRID_SIZE);
 				for(int j=0;j<GRID_SIZE;j++){
 					GRID[i][j]=false;
 				}
