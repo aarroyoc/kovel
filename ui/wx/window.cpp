@@ -31,15 +31,71 @@ class ToolPanel : public wxPanel{
 		}
 };
 
+class GridPanel : public wxPanel{
+	public:
+		unsigned short GRID_SIZE = 16;
+		bool GRID[16][16];
+		GridPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
+		{
+			for(int i=0;i<GRID_SIZE;i++){
+				for(int j=0;j<GRID_SIZE;j++){
+					GRID[i][j]=false;
+				}
+			}
+			SetSize(100,100);
+			PaintNow();
+			
+			Bind(wxEVT_PAINT,&GridPanel::Paint,this,-1);
+			Bind(wxEVT_LEFT_DOWN,&GridPanel::Click,this,-1);
+		}
+		void PaintNow(){
+			wxClientDC dc(this);
+			this->Render(dc);
+		}
+		void Render(wxDC& dc){
+			dc.SetPen(*wxTRANSPARENT_PEN);
+			
+			wxSize size=this->GetSize();
+			int cellWidth=size.GetWidth()/GRID_SIZE;
+			int cellHeight=size.GetHeight()/GRID_SIZE;
+			for(int i=0;i<GRID_SIZE;i++){
+				for(int j=0;j<GRID_SIZE;j++){
+					dc.SetBrush(*wxBLUE_BRUSH);
+					dc.DrawRectangle(i*cellWidth,j*cellHeight,cellWidth,cellHeight);
+					if(GRID[i][j])
+						dc.SetBrush(*wxCYAN_BRUSH);
+					else
+						dc.SetBrush(*wxWHITE_BRUSH);
+					dc.DrawRectangle((i*cellWidth)+2,(j*cellHeight)+2,cellWidth-4,cellHeight-4);
+				}
+			}
+		}
+		void Click(wxMouseEvent& event){
+			wxClientDC dc(this);
+			
+			wxPoint point=event.GetLogicalPosition(dc);
+			
+			wxSize size=this->GetSize();
+			int cellWidth=size.GetWidth()/GRID_SIZE;
+			int cellHeight=size.GetHeight()/GRID_SIZE;
+			int xCoord=(point.x/cellWidth);
+			int yCoord=(point.y/cellHeight);
+			
+			GRID[xCoord][yCoord]=!GRID[xCoord][yCoord];
+			
+			this->PaintNow();
+		}
+		void Paint(wxPaintEvent& event){
+			wxPaintDC dc(this);
+			this->Render(dc);
+		}
+};
+
 class WorkPanel : public wxPanel{
 	public:
 		WorkPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
 		{
-			wxColour red;
-			red.Set("#ff0000");
-			wxPanel* workSide=new wxPanel(this,wxID_ANY);
-			workSide->SetBackgroundColour(red);
-			workSide->SetSize(100,100);
+			GridPanel* workSide=new GridPanel(this);
 			wxPanel* workTools=new wxPanel(this,wxID_ANY);
 			
 			wxButton* up=new wxButton(workTools,wxID_ANY,"Up");
