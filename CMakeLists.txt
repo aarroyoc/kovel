@@ -22,8 +22,16 @@ FILE(GLOB CLI_SRC "cli/*.cpp")
 
 SET(KOVEL_SRC ${CORE_SRC} ${UI_SRC} ${GL_SRC} ${EXPORT_SRC})
 
+ADD_SUBDIRECTORY(libbson)
+
+INCLUDE_DIRECTORIES("libbson/src/bson")
+INCLUDE_DIRECTORIES("${PROJECT_BINARY_DIR}/libbson/src/bson")
+
 ADD_EXECUTABLE(Kovel ${KOVEL_SRC})
 ADD_EXECUTABLE(kovelcli ${CLI_SRC})
+
+TARGET_LINK_LIBRARIES(Kovel bson_static)
+TARGET_LINK_LIBRARIES(kovelcli bson_static)
 
 IF(HAIKU_UI)
 	TARGET_LINK_LIBRARIES(Kovel be root tracker)
