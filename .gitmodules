@@ -1,0 +1,3 @@
+[submodule "libbson"]
+	path = libbson
+	url = git://github.com/mongodb/libbson

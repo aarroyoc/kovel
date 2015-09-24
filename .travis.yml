@@ -13,7 +13,7 @@ install:
  - docker pull $DOCKER_IMAGE
 script:
  - if [ "${PKG}" = "DEB" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && apt-get update && apt-get install software-properties-common && add-apt-repository -y "deb http://ppa.launchpad.net/adrian-arroyocalle/general/ubuntu trusty main" && apt-get update && apt-get install -y cmake g++ libwxgtk3.0-dev libwxbase3.0-dev wx3.0-headers wx-common && cmake . -DWX_UI=ON && make" 
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && apt-get update && apt-get install -y cmake g++ libwxgtk3.0-dev libwxbase3.0-dev wx3.0-headers wx-common && cmake . -DWX_UI=ON && make" 
       ;
       fi
  - if [ "${PKG}" = "DNF" ]; then
