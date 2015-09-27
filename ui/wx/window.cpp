@@ -1,8 +1,9 @@
 #include "wx/wx.h"
-#include <wx/aui/framemanager.h>
 
 #include "window.hpp"
 #include "preview.hpp"
+
+#include "../../core/core.hpp"
 
 class ToolPanel : public wxPanel{
 	public:
@@ -33,7 +34,7 @@ class ToolPanel : public wxPanel{
 
 class GridPanel : public wxPanel{
 	public:
-		unsigned short GRID_SIZE = 16;
+		unsigned short GRID_SIZE = 4; // 16 might be the maximum
 		bool** GRID;
 		GridPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
 		{
@@ -121,6 +122,8 @@ class WorkPanel : public wxPanel{
 
 MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",wxDefaultPosition,wxSize(800,600),wxDEFAULT_FRAME_STYLE)
 {
+	Core* core=new Core();
+	core->LoadFile("SAMPLE.bson");
 	wxColourDatabase colorDb;
 	wxColour red,blue,green,yellow;
 	
@@ -152,9 +155,9 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	main->SetSizer(mainSizer);
 	
 	wxBoxSizer* workSizer=new wxBoxSizer(wxHORIZONTAL);
-	workSizer->Add(workOne,1,wxEXPAND | wxALL,5);
+	//workSizer->Add(workOne,1,wxEXPAND | wxALL,5);
 	workSizer->Add(workTwo,1,wxEXPAND | wxALL,5);
-	workSizer->Add(workThree,1,wxEXPAND | wxALL,5);
+	//workSizer->Add(workThree,1,wxEXPAND | wxALL,5);
 	work->SetSizer(workSizer);
 	
 	tool->SetBackgroundColour(green);
