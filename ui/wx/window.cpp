@@ -123,7 +123,7 @@ class WorkPanel : public wxPanel{
 MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",wxDefaultPosition,wxSize(800,600),wxDEFAULT_FRAME_STYLE)
 {
 	Core* core=new Core();
-	core->LoadFile("SAMPLE.bson");
+	//core->LoadFile("SAMPLE.bson");
 	wxColourDatabase colorDb;
 	wxColour red,blue,green,yellow;
 	

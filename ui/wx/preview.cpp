@@ -28,16 +28,18 @@ PreviewPanel::PreviewPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY,wxDefault
 
 void PreviewPanel::OnIdle(wxIdleEvent& event)
 {
+	wxSize size=this->GetSize();
 	wxClientDC(this);
 	canvas->SetCurrent(*ctx);
-	gl->Render();
+	gl->Render(size.GetWidth(),size.GetHeight());
 	canvas->SwapBuffers();
 }
 
 void PreviewPanel::OnPaint(wxPaintEvent& event)
 {
+	wxSize size=this->GetSize();
 	wxPaintDC(this);
 	canvas->SetCurrent(*ctx);
-	gl->Render();
+	gl->Render(size.GetWidth(),size.GetHeight());
 	canvas->SwapBuffers();
 }

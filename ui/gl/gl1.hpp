@@ -4,7 +4,7 @@
 class GlPreviewer{
 	public:
 		GlPreviewer();
-		void Render(); // Specify a FILE
+		void Render(int width, int height); // Specify a FILE
 };
 
 #endif
