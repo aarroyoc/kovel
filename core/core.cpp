@@ -1,14 +1,21 @@
 #include "core.hpp"
 
 
+Core* Core::pinstance = 0;
+
+Core* Core::Instance ()
+{
+  if (pinstance == 0)
+  {
+    pinstance = new Core;
+  }
+  return pinstance;
+}
+
 Core::Core()
 {
 	this->NewFile(4);
 	geo=new Geometry(4);
-	geo->SetGrid(256,0,1,2);
-	geo->SetGrid(3,1,1,2);
-	printf("Grid value is: %d\n",geo->GetGrid(0,1,2));
-	printf("Grid value is: %d\n",geo->GetGrid(3,3,3));
 }
 
 Core::~Core()
@@ -19,6 +26,8 @@ Core::~Core()
 void Core::NewFile(unsigned short g)
 {
 	this->grid=g;
+	delete geo;
+	geo=new Geometry(g);
 	bson_init(&kovel);
 	
 	// METADATA
@@ -87,7 +96,7 @@ void Core::LoadFile(std::string filename)
 
 void Core::SaveFile()
 {
-	
+	// Dump grid to File
 }
 
 void Core::UpdateMetadata()
@@ -95,9 +104,8 @@ void Core::UpdateMetadata()
 	
 }
 
-void Core::UpdateGrid(unsigned short x, unsigned short y, unsigned short z)
+void Core::UpdateGrid(unsigned short value,unsigned short x, unsigned short y, unsigned short z)
 {
-	// Modify BSON
-	
-	// Trigger update preview
+	// Modify Geo
+	geo->SetGrid(value,x,y,z);
 }

@@ -35,24 +35,31 @@ class Geometry{
 			}
 			free(geo);
 		}
+		unsigned short g;
 	private:
 		unsigned short*** geo;
-		unsigned short g;
 };
 
 class Core{
 	public:
+		static Core* Instance();
+	protected:
 		Core();
 		~Core();
+		Core(Core const&) = delete;              // Don't Implement.
+        void operator=(Core const&) = delete; // Don't implement
+    public:
 		void NewFile(unsigned short);
 		void LoadFile(std::string filename);
 		void SaveFile();
-		void UpdateGrid(unsigned short x, unsigned short y, unsigned short z);
+		void UpdateGrid(unsigned short value, unsigned short x, unsigned short y, unsigned short z);
 		void UpdateMetadata();
+		Geometry* geo;
 	private:
 		bson_t kovel;
 		unsigned short grid;
-		Geometry* geo;
+		static Core* pinstance;
+
 };
 
 #endif

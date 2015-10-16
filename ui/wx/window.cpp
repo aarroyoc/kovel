@@ -36,6 +36,7 @@ class GridPanel : public wxPanel{
 	public:
 		unsigned short GRID_SIZE = 4; // 16 might be the maximum
 		bool** GRID;
+		short zCoord = 0;
 		GridPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
 		{
 			GRID=(bool**)malloc(sizeof(bool*) * GRID_SIZE);
@@ -89,11 +90,47 @@ class GridPanel : public wxPanel{
 			
 			GRID[xCoord][yCoord]=!GRID[xCoord][yCoord];
 			
+			Core* core=Core::Instance();
+			if(GRID[xCoord][yCoord])
+				core->UpdateGrid(1,xCoord,zCoord,yCoord);
+			else
+				core->UpdateGrid(0,xCoord,zCoord,yCoord);
+			// Update preview
+			
 			this->PaintNow();
 		}
 		void Paint(wxPaintEvent& event){
 			wxPaintDC dc(this);
 			this->Render(dc);
+		}
+		void ReloadWorkGrid(){
+			Core* core=Core::Instance();
+			
+			/*for(int i=0;i<GRID_SIZE;i++){
+				free(GRID[i]);
+			}
+			free(GRID);*/
+			
+			GRID=(bool**)malloc(sizeof(bool*) * GRID_SIZE);
+			for(int i=0;i<GRID_SIZE;i++){
+				GRID[i]=(bool*)malloc(sizeof(bool) * GRID_SIZE);
+				for(int j=0;j<GRID_SIZE;j++){
+					GRID[i][j]=core->geo->GetGrid(i,zCoord,j);
+				}
+			}
+			this->PaintNow();
+		}
+		void UpButton(wxCommandEvent& event){
+			zCoord++;
+			if(zCoord == GRID_SIZE)
+				zCoord--;
+			this->ReloadWorkGrid();
+		}
+		void DownButton(wxCommandEvent& event){
+			zCoord--;
+			if(zCoord == -1)
+				zCoord++;
+			this->ReloadWorkGrid();
 		}
 };
 
@@ -105,7 +142,9 @@ class WorkPanel : public wxPanel{
 			wxPanel* workTools=new wxPanel(this,wxID_ANY);
 			
 			wxButton* up=new wxButton(workTools,wxID_ANY,"Up");
+			up->Bind(wxEVT_BUTTON,&GridPanel::UpButton,workSide,-1);
 			wxButton* down=new wxButton(workTools,wxID_ANY,"Down");
+			down->Bind(wxEVT_BUTTON,&GridPanel::DownButton,workSide,-1);
 			
 			wxBoxSizer* sizer=new wxBoxSizer(wxVERTICAL);
 			sizer->Add(workSide,3,wxALIGN_CENTER | wxSHAPED);
@@ -122,7 +161,7 @@ class WorkPanel : public wxPanel{
 
 MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",wxDefaultPosition,wxSize(800,600),wxDEFAULT_FRAME_STYLE)
 {
-	Core* core=new Core();
+	Core* core=Core::Instance();
 	//core->LoadFile("SAMPLE.bson");
 	wxColourDatabase colorDb;
 	wxColour red,blue,green,yellow;

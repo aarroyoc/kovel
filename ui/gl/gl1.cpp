@@ -7,7 +7,68 @@ GlPreviewer::GlPreviewer()
 	
 }
 
-void GlPreviewer::Render(int width, int height)
+void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z)
+{
+		glColor3f(1.0,1.0,0.0);
+	glBegin(GL_TRIANGLES);
+	
+		/* First face */
+		glVertex3f(0.0+x,0.0+y,0.0+z);
+		glVertex3f(0.0+x,1.0+y,0.0+z);
+		glVertex3f(0.0+x,1.0+y,1.0+z);
+		
+		glVertex3f(0.0+x,0.0+y,0.0+z);
+		glVertex3f(0.0+x,1.0+y,1.0+z);
+		glVertex3f(0.0+x,0.0+y,1.0+z);
+		
+		/* Second face */
+		glVertex3f(0.0+x,0.0+y,1.0+z);
+		glVertex3f(1.0+x,0.0+y,1.0+z);
+		glVertex3f(1.0+x,1.0+y,1.0+z);
+		
+		glVertex3f(0.0+x,0.0+y,1.0+z);
+		glVertex3f(0.0+x,1.0+y,1.0+z);
+		glVertex3f(1.0+x,1.0+y,1.0+z);
+		
+		/* Third face */
+		glVertex3f(1.0+x,0.0+y,1.0+z);
+		glVertex3f(1.0+x,0.0+y,0.0+z);
+		glVertex3f(1.0+x,1.0+y,0.0+z);
+		
+		glVertex3f(1.0+x,0.0+y,1.0+z);
+		glVertex3f(1.0+x,1.0+y,1.0+z);
+		glVertex3f(1.0+x,1.0+y,0.0+z);
+		
+		/* Forth face */
+		glVertex3f(0.0+x,0.0+y,0.0+z);
+		glVertex3f(0.0+x,1.0+y,0.0+z);
+		glVertex3f(1.0+x,1.0+y,0.0+z);
+		
+		glVertex3f(0.0+x,0.0+y,0.0+z);
+		glVertex3f(1.0+x,0.0+y,0.0+z);
+		glVertex3f(1.0+x,1.0+y,0.0+z);
+		
+		/* Fifth face - Top */
+		glVertex3f(0.0+x,1.0+y,0.0+z);
+		glVertex3f(0.0+x,1.0+y,1.0+z);
+		glVertex3f(1.0+x,1.0+y,1.0+z);
+		
+		glVertex3f(0.0+x,1.0+y,0.0+z);
+		glVertex3f(1.0+x,1.0+y,0.0+z);
+		glVertex3f(1.0+x,1.0+y,1.0+z);
+		
+		/* Sixth face - Bottom*/
+		glVertex3f(0.0+x,0.0+y,0.0+z);
+		glVertex3f(0.0+x,0.0+y,1.0+z);
+		glVertex3f(1.0+x,0.0+y,1.0+z);
+		
+		glVertex3f(0.0+x,0.0+y,0.0+z);
+		glVertex3f(1.0+x,0.0+y,0.0+z);
+		glVertex3f(1.0+x,0.0+y,1.0+z);
+	glEnd();
+}
+
+void GlPreviewer::Render(int width, int height, Geometry* geo)
 {
 	// USE OLD OPENGL 1 code
 	glClearColor(0.0,0.0,0.0,1.0);
@@ -45,4 +106,14 @@ void GlPreviewer::Render(int width, int height)
 		glVertex3f(0.0,0.0,0.0);
 		glVertex3f(0.0,0.0,100.0);
 	glEnd();
+	
+	for(short i=0;i<geo->g;i++){
+		for(short j=0;j<geo->g;j++){
+			for(short k=0;k<geo->g;k++){
+				if(geo->GetGrid(i,j,k)==1){
+					DrawCube(i,j,k);
+				}
+			}
+		}
+	}
 }
