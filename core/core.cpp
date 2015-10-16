@@ -4,6 +4,16 @@
 Core::Core()
 {
 	this->NewFile(4);
+	geo=new Geometry(4);
+	geo->SetGrid(256,0,1,2);
+	geo->SetGrid(3,1,1,2);
+	printf("Grid value is: %d\n",geo->GetGrid(0,1,2));
+	printf("Grid value is: %d\n",geo->GetGrid(3,3,3));
+}
+
+Core::~Core()
+{
+	delete geo;
 }
 
 void Core::NewFile(unsigned short g)
@@ -85,7 +95,7 @@ void Core::UpdateMetadata()
 	
 }
 
-void Core::UpdateGrid()
+void Core::UpdateGrid(unsigned short x, unsigned short y, unsigned short z)
 {
 	// Modify BSON
 	
