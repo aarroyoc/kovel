@@ -22,7 +22,7 @@ script:
       ;
    fi
  - if [ "${PKG}" = "ZYPPER" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && zypper addrepo http://download.opensuse.org/repositories/X11:wxWidgets/openSUSE_Tumbleweed/X11:wxWidgets.repo && zypper refresh && zypper --non-interactive install cmake gcc-c++ wxWidgets-3_0 && cmake . -DWX_UI=ON && make"
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && zypper --non-interactive addrepo http://download.opensuse.org/repositories/X11:wxWidgets/openSUSE_Tumbleweed/X11:wxWidgets.repo && zypper --non-interactive refresh && zypper --non-interactive install cmake gcc-c++ wxWidgets-3_0 && cmake . -DWX_UI=ON && make"
        ;
    fi
 
