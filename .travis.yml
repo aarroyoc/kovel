@@ -7,6 +7,7 @@ env:
  - DOCKER_IMAGE="debian:sid" PKG="DEB"
  - DOCKER_IMAGE="fedora:22" PKG="DNF"
  - DOCKER_IMAGE="opensuse:tumbleweed" PKG="ZYPPER"
+ - DOCKER_IMAGE="debian:experimental" PKG="DEB"
 services:
  - docker
 install:
@@ -17,11 +18,11 @@ script:
       ;
       fi
  - if [ "${PKG}" = "DNF" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && dnf -y install cmake gcc-c++ wxGTK-devel && cmake . -DWX_UI=ON && make"
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && wget http://repos.codelite.org/wx3.0.2/wx3.0-packages/fedora/3.0.2/21/wx-base-unicode-3.0.2-1.x86_64.rpm && wget http://repos.codelite.org/wx3.0.2/wx3.0-packages/fedora/3.0.2/21/wx-base-unicode-devel-3.0.2-1.x86_64.rpm && wget http://repos.codelite.org/wx3.0.2/wx3.0-packages/fedora/3.0.2/21/wx-gtk2-unicode-3.0.2-1.x86_64.rpm && http://repos.codelite.org/wx3.0.2/wx3.0-packages/fedora/3.0.2/21/wx-gtk2-unicode-devel-3.0.2-1.x86_64.rpm && wget http://repos.codelite.org/wx3.0.2/wx3.0-packages/fedora/3.0.2/21/wx-gtk2-unicode-gl-3.0.2-1.x86_64.rpm && wget http://repos.codelite.org/wx3.0.2/wx3.0-packages/fedora/3.0.2/21/wx-i18n-3.0.2-1.x86_64.rpm && rpm -ivh *.rpm && dnf -y install cmake gcc-c++ && cmake . -DWX_UI=ON && make"
       ;
    fi
  - if [ "${PKG}" = "ZYPPER" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && zypper refresh && zypper --non-interactive install cmake gcc-c++ wxWidgets-devel && cmake . -DWX_UI=ON && make"
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && zypper addrepo http://download.opensuse.org/repositories/X11:wxWidgets/openSUSE_Tumbleweed/X11:wxWidgets.repo && zypper refresh && zypper --non-interactive install cmake gcc-c++ wxWidgets-3_0 && cmake . -DWX_UI=ON && make"
        ;
    fi
 
@@ -30,6 +31,6 @@ matrix:
   - env: DOCKER_IMAGE="ubuntu:trusty" PKG="DEB"
   - env: DOCKER_IMAGE="ubuntu:vivid" PKG="DEB"
   - env: DOCKER_IMAGE="debian:jessie" PKG="DEB"
-  - env: DOCKER_IMAGE="debian:sid" PKG="DEB"
   - env: DOCKER_IMAGE="fedora:22" PKG="DNF"
   - env: DOCKER_IMAGE="opensuse:tumbleweed" PKG="ZYPPER"
+  - env: DOCKER_IMAGE="debian:experimental" PKG="DEB"
