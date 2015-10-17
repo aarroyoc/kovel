@@ -4,6 +4,10 @@
 #include <bson.h>
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
+
+// CAMBIAR T por unsigned short y ELIMINAR por completo la Plantilla
+// Usar STDVector para los materiales en vez de eso
 
 class Geometry{
 	public:
@@ -40,6 +44,26 @@ class Geometry{
 		unsigned short*** geo;
 };
 
+class Material{
+	public:
+		Material(){
+			this->name="NullColour";
+		}
+		Material(std::string name){
+			this->name=name;
+		};
+		Material(std::string name,float r, float g, float b){
+			this->r=r;
+			this->g=g;
+			this->b=b;
+			this->name=name;
+		};
+		// Accept textures in future
+		std::string name;
+	private:
+		float r,g,b;
+};
+
 class Core{
 	public:
 		static Core* Instance();
@@ -54,11 +78,16 @@ class Core{
 		void SaveFile();
 		void UpdateGrid(unsigned short value, unsigned short x, unsigned short y, unsigned short z);
 		void UpdateMetadata();
+		void SetMaterial(Material mat);
 		Geometry* geo;
+		//Geometry<std::string>* mat; STDVECTOR
 	private:
 		bson_t kovel;
 		unsigned short grid;
 		static Core* pinstance;
+		float r,g,b;
+		std::unordered_map<std::string,Material> material;
+		Material currentMat;
 
 };
 

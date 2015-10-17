@@ -14,8 +14,9 @@ Core* Core::Instance ()
 
 Core::Core()
 {
-	this->NewFile(4);
-	geo=new Geometry(4);
+	this->NewFile(5);
+	geo=new Geometry(5);
+	//mat=new Geometry<std::string>(5); STDVECTOR
 }
 
 Core::~Core()
@@ -108,4 +109,18 @@ void Core::UpdateGrid(unsigned short value,unsigned short x, unsigned short y, u
 {
 	// Modify Geo
 	geo->SetGrid(value,x,y,z);
+	// mat->SetGrid(currentMat.name,x,y,z); STDVector
+}
+
+void Core::SetMaterial(Material mat)
+{
+	// Check if already exists, otherwise, push it
+	std::string matName=mat.name;
+	if(material.find(matName) == material.end()){
+		// Doesn't exist
+		material.insert({matName,mat});
+	}
+	
+	// Find and change to current material
+	currentMat=material[matName];
 }

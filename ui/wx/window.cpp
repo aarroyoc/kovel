@@ -1,13 +1,14 @@
 #include "wx/wx.h"
+#include <wx/clrpicker.h>
 
 #include "window.hpp"
 #include "preview.hpp"
 
 #include "../../core/core.hpp"
 
-class ToolPanel : public wxPanel{
+class ToolPanelOld : public wxPanel{
 	public:
-		ToolPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY){
+		ToolPanelOld(wxWindow* parent) : wxPanel(parent,wxID_ANY){
 			
 			// Maybe wxGrid here for buttons with pictures?
 			wxGridSizer* grid=new wxGridSizer(16,2,5,5);
@@ -32,9 +33,28 @@ class ToolPanel : public wxPanel{
 		}
 };
 
+class ToolPanel : public wxPanel{
+	public:
+		ToolPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
+		{
+			wxBoxSizer* sizer=new wxBoxSizer(wxVERTICAL);
+			wxColourPickerCtrl* picker=new wxColourPickerCtrl(this,wxID_ANY,*wxYELLOW);
+			sizer->Add(picker,0,wxEXPAND | wxALL);
+			// Call Core::SetMaterial, wxCLRP_USE_TEXTCTRL
+			picker->Bind(wxEVT_COLOURPICKER_CHANGED,[picker](wxColourPickerEvent &)->void{
+				wxColour color=picker->GetColour();
+				Core* core=Core::Instance();
+				Material mat(color.GetAsString().ToStdString(),color.Red()/255,color.Green()/255,color.Blue()/255);
+				core->SetMaterial(mat);
+			},wxID_ANY);
+			
+			SetSizer(sizer);
+		}
+};
+
 class GridPanel : public wxPanel{
 	public:
-		unsigned short GRID_SIZE = 4; // 16 might be the maximum
+		unsigned short GRID_SIZE = 5; // 16 might be the maximum
 		bool** GRID;
 		short zCoord = 0;
 		GridPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
@@ -174,7 +194,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	wxPanel* panel=new wxPanel(this,wxID_ANY);
 	
 	wxPanel* main=new wxPanel(panel,wxID_ANY);
-	wxPanel* tool=new wxPanel(panel,wxID_ANY);
+	ToolPanel* tool=new ToolPanel(panel);
 	
 	wxPanel* work=new wxPanel(main,wxID_ANY);
 	PreviewPanel* preview=new PreviewPanel(main);
@@ -200,6 +220,51 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	work->SetSizer(workSizer);
 	
 	tool->SetBackgroundColour(green);
+	
+	
+	// MenuBar
+	wxMenuBar* menuBar=new wxMenuBar;
+	
+	wxMenu* file=new wxMenu;
+	wxMenuItem* newFile=new wxMenuItem(file,wxID_NEW,"&New file");
+	file->Append(newFile);
+	file->Append(wxID_OPEN,"&Open file");
+	file->Append(wxID_SAVE,"&Save file");
+	file->Append(wxID_SAVEAS,"Save file as...");
+	file->AppendSeparator();
+	
+	wxMenuItem* exit=new wxMenuItem(file,wxID_EXIT,"&Exit");
+	file->Append(exit);
+	Bind(wxEVT_MENU, [this](wxCommandEvent &)->void{
+            this->Close();
+        }, wxID_EXIT);
+	menuBar->Append(file,"&File");
+	
+	
+	wxMenu* edit=new wxMenu;
+	edit->Append(wxID_UNDO,"&Undo");
+	edit->AppendSeparator();
+	edit->Append(wxID_ANY,"Clear work grid");
+	edit->Append(wxID_ANY,"Select color"); // Select materials, when materials done
+	menuBar->Append(edit,"&Edit");
+	
+	
+	wxMenu* navigate=new wxMenu;
+	navigate->Append(wxID_ANY,"Zoom &in");
+	navigate->Append(wxID_ANY,"Zoom &out");
+	navigate->AppendSeparator();
+	navigate->Append(wxID_ANY,"Rotate left");
+	navigate->Append(wxID_ANY,"Rotate right");
+	menuBar->Append(navigate,"&Navigate");
+	
+	
+	wxMenu* help=new wxMenu;
+	help->Append(wxID_ANY,"Legacy OpenGL 1.0"); // Change to GL ES 2.0 in a future
+	help->Append(wxID_ANY,"Visit author website");
+	help->AppendSeparator();
+	help->Append(wxID_ABOUT,"&About...");
+	menuBar->Append(help,"&Help");
+	SetMenuBar(menuBar);
 	
 	Centre();
 
