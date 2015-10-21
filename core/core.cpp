@@ -16,7 +16,14 @@ Core::Core()
 {
 	this->NewFile(5);
 	geo=new Geometry(5);
-	//mat=new Geometry<std::string>(5); STDVECTOR
+	mat.clear();
+	mat.resize(5);
+	for(short u=0;u<5;u++){
+		mat.at(u).resize(5);
+		for(short v=0;v<5;v++){
+			mat.at(u)[v].resize(5);
+		}
+	}
 }
 
 Core::~Core()
@@ -109,7 +116,7 @@ void Core::UpdateGrid(unsigned short value,unsigned short x, unsigned short y, u
 {
 	// Modify Geo
 	geo->SetGrid(value,x,y,z);
-	// mat->SetGrid(currentMat.name,x,y,z); STDVector
+	mat[x][y][z]=currentMat;
 }
 
 void Core::SetMaterial(Material mat)

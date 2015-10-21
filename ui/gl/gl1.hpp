@@ -6,8 +6,8 @@
 class GlPreviewer{
 	public:
 		GlPreviewer();
-		void Render(int width, int height, Geometry* geo); // Specify a FILE
-		void DrawCube(unsigned short x, unsigned short y, unsigned short z);
+		void Render(int width, int height, Geometry* geo, Material3D mat); // Specify a FILE
+		void DrawCube(unsigned short x, unsigned short y, unsigned short z, Material mat);
 };
 
 #endif

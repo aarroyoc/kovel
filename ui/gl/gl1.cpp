@@ -7,9 +7,9 @@ GlPreviewer::GlPreviewer()
 	
 }
 
-void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z)
+void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z, Material mat)
 {
-		glColor3f(1.0,1.0,0.0);
+	glColor3f(mat.r,mat.g,mat.b);
 	glBegin(GL_TRIANGLES);
 	
 		/* First face */
@@ -68,7 +68,7 @@ void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z)
 	glEnd();
 }
 
-void GlPreviewer::Render(int width, int height, Geometry* geo)
+void GlPreviewer::Render(int width, int height, Geometry* geo, Material3D mat)
 {
 	// USE OLD OPENGL 1 code
 	glClearColor(0.0,0.0,0.0,1.0);
@@ -111,7 +111,7 @@ void GlPreviewer::Render(int width, int height, Geometry* geo)
 		for(short j=0;j<geo->g;j++){
 			for(short k=0;k<geo->g;k++){
 				if(geo->GetGrid(i,j,k)==1){
-					DrawCube(i,j,k);
+					DrawCube(i,j,k,mat[i][j][k]);
 				}
 			}
 		}

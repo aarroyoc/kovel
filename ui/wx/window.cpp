@@ -40,11 +40,13 @@ class ToolPanel : public wxPanel{
 			wxBoxSizer* sizer=new wxBoxSizer(wxVERTICAL);
 			wxColourPickerCtrl* picker=new wxColourPickerCtrl(this,wxID_ANY,*wxYELLOW);
 			sizer->Add(picker,0,wxEXPAND | wxALL);
-			// Call Core::SetMaterial, wxCLRP_USE_TEXTCTRL
 			picker->Bind(wxEVT_COLOURPICKER_CHANGED,[picker](wxColourPickerEvent &)->void{
 				wxColour color=picker->GetColour();
 				Core* core=Core::Instance();
-				Material mat(color.GetAsString().ToStdString(),color.Red()/255,color.Green()/255,color.Blue()/255);
+				float r=((float)color.Red())/255;
+				float g=((float)color.Green())/255;
+				float b=((float)color.Blue())/255;
+				Material mat(color.GetAsString().ToStdString(),r,g,b);
 				core->SetMaterial(mat);
 			},wxID_ANY);
 			

@@ -5,8 +5,8 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <vector>
 
-// CAMBIAR T por unsigned short y ELIMINAR por completo la Plantilla
 // Usar STDVector para los materiales en vez de eso
 
 class Geometry{
@@ -48,9 +48,15 @@ class Material{
 	public:
 		Material(){
 			this->name="NullColour";
+			this->r=1.0f;
+			this->g=1.0f;
+			this->b=0.0f;
 		}
 		Material(std::string name){
 			this->name=name;
+			this->r=1.0f;
+			this->g=1.0f;
+			this->b=0.0f;
 		};
 		Material(std::string name,float r, float g, float b){
 			this->r=r;
@@ -60,9 +66,11 @@ class Material{
 		};
 		// Accept textures in future
 		std::string name;
-	private:
+	public:
 		float r,g,b;
 };
+
+typedef std::vector<std::vector<std::vector<Material>>> Material3D;
 
 class Core{
 	public:
@@ -80,7 +88,7 @@ class Core{
 		void UpdateMetadata();
 		void SetMaterial(Material mat);
 		Geometry* geo;
-		//Geometry<std::string>* mat; STDVECTOR
+		Material3D mat;
 	private:
 		bson_t kovel;
 		unsigned short grid;
