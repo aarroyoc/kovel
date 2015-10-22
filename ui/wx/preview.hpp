@@ -1,10 +1,10 @@
 #ifndef PREVIEW_HPP
 #define PREVIEW_HPP
 
+#include "../gl/gl1.hpp"
+
 #include "wx/wx.h"
 #include "wx/glcanvas.h"
-
-#include "../gl/gl1.hpp"
 
 class PreviewPanel : public wxPanel{
 	public:

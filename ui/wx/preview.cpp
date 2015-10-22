@@ -1,7 +1,7 @@
+#include "preview.hpp"
+
 #include "wx/wx.h"
 #include "wx/glcanvas.h"
-
-#include "preview.hpp"
 
 #include "../gl/gl1.hpp"
 
