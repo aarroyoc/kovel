@@ -1,5 +1,6 @@
 #include "wx/wx.h"
 #include <wx/clrpicker.h>
+#include <wx/colordlg.h>
 
 #include "window.hpp"
 #include "preview.hpp"
@@ -247,7 +248,22 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	edit->Append(wxID_UNDO,"&Undo");
 	edit->AppendSeparator();
 	edit->Append(wxID_ANY,"Clear work grid");
-	edit->Append(wxID_ANY,"Select color"); // Select materials, when materials done
+	wxMenuItem* selectColor=new wxMenuItem(edit,67,"Select colour");
+	edit->Append(selectColor);
+	Bind(wxEVT_MENU,[this](wxCommandEvent &)->void{
+		// Color picker
+		wxColourDialog* clrDlg=new wxColourDialog(this);
+		if(clrDlg->ShowModal() == wxID_OK){
+			wxColourData& clrData= clrDlg->GetColourData(); // FILL THIS
+			wxColour& color=clrData.GetColour();
+			Core* core=Core::Instance();
+			float r=((float)color.Red())/255;
+			float g=((float)color.Green())/255;
+			float b=((float)color.Blue())/255;
+			Material mat(color.GetAsString().ToStdString(),r,g,b);
+			core->SetMaterial(mat);
+		}
+	}, 67);
 	menuBar->Append(edit,"&Edit");
 	
 	

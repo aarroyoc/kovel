@@ -9,8 +9,9 @@ GlPreviewer::GlPreviewer()
 
 void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z, Material mat)
 {
-	glColor3f(mat.r,mat.g,mat.b);
 	glBegin(GL_TRIANGLES);
+	
+		glColor3f(mat.r,mat.g,mat.b);
 	
 		/* First face */
 		glVertex3f(0.0+x,0.0+y,0.0+z);
@@ -21,14 +22,7 @@ void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z,
 		glVertex3f(0.0+x,1.0+y,1.0+z);
 		glVertex3f(0.0+x,0.0+y,1.0+z);
 		
-		/* Second face */
-		glVertex3f(0.0+x,0.0+y,1.0+z);
-		glVertex3f(1.0+x,0.0+y,1.0+z);
-		glVertex3f(1.0+x,1.0+y,1.0+z);
-		
-		glVertex3f(0.0+x,0.0+y,1.0+z);
-		glVertex3f(0.0+x,1.0+y,1.0+z);
-		glVertex3f(1.0+x,1.0+y,1.0+z);
+		glColor3f(mat.r*0.6,mat.g*0.6,mat.b*0.6);
 		
 		/* Third face */
 		glVertex3f(1.0+x,0.0+y,1.0+z);
@@ -39,6 +33,8 @@ void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z,
 		glVertex3f(1.0+x,1.0+y,1.0+z);
 		glVertex3f(1.0+x,1.0+y,0.0+z);
 		
+		glColor3f(mat.r,mat.g,mat.b);
+		
 		/* Forth face */
 		glVertex3f(0.0+x,0.0+y,0.0+z);
 		glVertex3f(0.0+x,1.0+y,0.0+z);
@@ -47,6 +43,8 @@ void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z,
 		glVertex3f(0.0+x,0.0+y,0.0+z);
 		glVertex3f(1.0+x,0.0+y,0.0+z);
 		glVertex3f(1.0+x,1.0+y,0.0+z);
+		
+		glColor3f(mat.r*0.9,mat.g*0.9,mat.b*0.9);
 		
 		/* Fifth face - Top */
 		glVertex3f(0.0+x,1.0+y,0.0+z);
@@ -57,6 +55,8 @@ void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z,
 		glVertex3f(1.0+x,1.0+y,0.0+z);
 		glVertex3f(1.0+x,1.0+y,1.0+z);
 		
+		glColor3f(mat.r,mat.g,mat.b);
+		
 		/* Sixth face - Bottom*/
 		glVertex3f(0.0+x,0.0+y,0.0+z);
 		glVertex3f(0.0+x,0.0+y,1.0+z);
@@ -65,6 +65,17 @@ void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z,
 		glVertex3f(0.0+x,0.0+y,0.0+z);
 		glVertex3f(1.0+x,0.0+y,0.0+z);
 		glVertex3f(1.0+x,0.0+y,1.0+z);
+		
+		glColor3f(mat.r*0.6,mat.g*0.6,mat.b*0.6);
+		
+		/* Second face */
+		glVertex3f(0.0+x,0.0+y,1.0+z);
+		glVertex3f(1.0+x,0.0+y,1.0+z);
+		glVertex3f(1.0+x,1.0+y,1.0+z);
+		
+		glVertex3f(0.0+x,0.0+y,1.0+z);
+		glVertex3f(0.0+x,1.0+y,1.0+z);
+		glVertex3f(1.0+x,1.0+y,1.0+z);
 	glEnd();
 }
 
