@@ -1,0 +1,33 @@
+version: 1.0.{build}
+os: Windows Server 2012 R2
+configuration: Release
+platform: x64
+clone_folder: C:\kovel
+install:
+- ps: >-
+    git submodule init
+
+    git submodule update
+
+    mkdir wx
+
+    cd wx
+
+    Start-FileDownload ftp://ftp.wxwidgets.org/pub/3.0.0/binaries/wxMSW-3.0.0_vc120_x64_Dev.7z
+
+    Start-FileDownload ftp://ftp.wxwidgets.org/pub/3.0.0/wxWidgets-3.0.0_headers.7z
+
+    7z x *.7z
+
+    cd ..
+before_build:
+- cmd: >-
+    cd C:\kovel
+
+    cmake . -G "Visual Studio 12 2013 Win64" -DWX_UI=ON -DwxWidgets_ROOT_DIR="C:\kovel\wx" -DwxWidgets_LIB_DIR="C:\kovel\wx\lib\vc120_x64_dll" && exit 0
+
+    cmake . -G "Visual Studio 12 2013 Win64" -DWX_UI=ON -DwxWidgets_ROOT_DIR="C:\kovel\wx" -DwxWidgets_LIB_DIR="C:\kovel\wx\lib\vc120_x64_dll"
+build:
+  project: Kovel.vcxproj
+  verbosity: normal
+test: off
