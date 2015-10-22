@@ -1,6 +1,9 @@
 #ifndef CORE_HPP
 #define CORE_HPP
 
+#ifdef WIN32
+#include <winsock2.h>
+#endif
 #include <bson.h>
 #include <iostream>
 #include <fstream>
