@@ -1,11 +1,11 @@
+#include "../../core/core.hpp"
+
 #include "wx/wx.h"
 #include <wx/clrpicker.h>
 #include <wx/colordlg.h>
 
 #include "window.hpp"
 #include "preview.hpp"
-
-#include "../../core/core.hpp"
 
 class ToolPanelOld : public wxPanel{
 	public:
