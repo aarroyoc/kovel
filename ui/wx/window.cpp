@@ -3,9 +3,12 @@
 #include "wx/wx.h"
 #include <wx/clrpicker.h>
 #include <wx/colordlg.h>
+#include <wx/statline.h>
 
 #include "window.hpp"
 #include "preview.hpp"
+
+wxColourPickerCtrl* picker;
 
 class ToolPanelOld : public wxPanel{
 	public:
@@ -39,9 +42,14 @@ class ToolPanel : public wxPanel{
 		ToolPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
 		{
 			wxBoxSizer* sizer=new wxBoxSizer(wxVERTICAL);
-			wxColourPickerCtrl* picker=new wxColourPickerCtrl(this,wxID_ANY,*wxYELLOW);
+			wxStaticText* header=new wxStaticText(this,wxID_ANY,"Material");
+			wxFont font=header->GetFont();
+			font.SetPointSize(18);
+			header->SetFont(font);
+			sizer->Add(header,0,wxEXPAND | wxALL);
+			picker=new wxColourPickerCtrl(this,wxID_ANY,*wxYELLOW);
 			sizer->Add(picker,0,wxEXPAND | wxALL);
-			picker->Bind(wxEVT_COLOURPICKER_CHANGED,[picker](wxColourPickerEvent &)->void{
+			picker->Bind(wxEVT_COLOURPICKER_CHANGED,[this](wxColourPickerEvent &)->void{
 				wxColour color=picker->GetColour();
 				Core* core=Core::Instance();
 				float r=((float)color.Red())/255;
@@ -50,6 +58,9 @@ class ToolPanel : public wxPanel{
 				Material mat(color.GetAsString().ToStdString(),r,g,b);
 				core->SetMaterial(mat);
 			},wxID_ANY);
+			
+			wxStaticLine* line=new wxStaticLine(this);
+			sizer->Add(line,0,wxEXPAND | wxALL);
 			
 			SetSizer(sizer);
 		}
@@ -222,7 +233,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	//workSizer->Add(workThree,1,wxEXPAND | wxALL,5);
 	work->SetSizer(workSizer);
 	
-	tool->SetBackgroundColour(green);
+	//tool->SetBackgroundColour(green);
 	
 	
 	// MenuBar
@@ -256,6 +267,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 		if(clrDlg->ShowModal() == wxID_OK){
 			wxColourData& clrData= clrDlg->GetColourData(); // FILL THIS
 			wxColour& color=clrData.GetColour();
+			picker->SetColour(color);
 			Core* core=Core::Instance();
 			float r=((float)color.Red())/255;
 			float g=((float)color.Green())/255;
