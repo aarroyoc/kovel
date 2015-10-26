@@ -154,6 +154,15 @@ class GridPanel : public wxPanel{
 			}
 			this->PaintNow();
 		}
+		void ClearGrid(){
+			Core* core=Core::Instance();
+			for(int i=0;i<GRID_SIZE;i++){
+				for(int j=0;j<GRID_SIZE;j++){
+					core->UpdateGrid(0,i,zCoord,j);
+				}
+			}
+			this->ReloadWorkGrid();
+		}
 		void UpButton(wxCommandEvent& event){
 			zCoord++;
 			if(zCoord == GRID_SIZE)
@@ -170,9 +179,10 @@ class GridPanel : public wxPanel{
 
 class WorkPanel : public wxPanel{
 	public:
+		GridPanel* workSide;
 		WorkPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
 		{
-			GridPanel* workSide=new GridPanel(this);
+			workSide=new GridPanel(this);
 			wxPanel* workTools=new wxPanel(this,wxID_ANY);
 			
 			wxButton* up=new wxButton(workTools,wxID_ANY,"Up");
@@ -189,6 +199,9 @@ class WorkPanel : public wxPanel{
 			workToolsSizer->Add(up,1,wxEXPAND | wxALL,5);
 			workToolsSizer->Add(down,1,wxEXPAND | wxALL,5);
 			workTools->SetSizer(workToolsSizer);
+		}
+		void CleanGrid(wxCommandEvent& evt){
+			workSide->ClearGrid();
 		}
 };
 
@@ -258,7 +271,9 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	wxMenu* edit=new wxMenu;
 	edit->Append(wxID_UNDO,"&Undo");
 	edit->AppendSeparator();
-	edit->Append(wxID_ANY,"Clear work grid");
+	wxMenuItem* clearWorkGrid=new wxMenuItem(edit,66,"Clear work grid");
+	edit->Append(clearWorkGrid);
+	Bind(wxEVT_MENU,&WorkPanel::CleanGrid,workTwo,66);
 	wxMenuItem* selectColor=new wxMenuItem(edit,67,"Select colour");
 	edit->Append(selectColor);
 	Bind(wxEVT_MENU,[this](wxCommandEvent &)->void{
