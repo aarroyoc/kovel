@@ -256,7 +256,14 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	wxMenuItem* newFile=new wxMenuItem(file,wxID_NEW,"&New file");
 	file->Append(newFile);
 	file->Append(wxID_OPEN,"&Open file");
-	file->Append(wxID_SAVE,"&Save file");
+	Bind(wxEVT_MENU,[core](wxCommandEvent&)->void{
+		core->LoadFile("KOVEL.kvl");
+	},wxID_OPEN);
+	wxMenuItem* saveFile=new wxMenuItem(file,wxID_SAVE,"&Save file");
+	file->Append(saveFile);
+	Bind(wxEVT_MENU,[core](wxCommandEvent &)->void{
+		core->SaveFile("KOVEL.kvl");
+	}, wxID_SAVE);
 	file->Append(wxID_SAVEAS,"Save file as...");
 	file->AppendSeparator();
 	

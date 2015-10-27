@@ -86,7 +86,7 @@ class Core{
     public:
 		void NewFile(unsigned short);
 		void LoadFile(std::string filename);
-		void SaveFile();
+		void SaveFile(std::string filename);
 		void UpdateGrid(unsigned short value, unsigned short x, unsigned short y, unsigned short z);
 		void UpdateMetadata();
 		void SetMaterial(Material mat);
