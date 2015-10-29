@@ -90,6 +90,7 @@ class Core{
 		void UpdateGrid(unsigned short value, unsigned short x, unsigned short y, unsigned short z);
 		void UpdateMetadata();
 		void SetMaterial(Material mat);
+		bool ValidateFile();
 		Geometry* geo;
 		Material3D mat;
 	private:

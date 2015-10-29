@@ -97,6 +97,36 @@ void Core::LoadFile(std::string filename)
 		
 		// DO REAL PROCESSING HERE
 		
+		short x=0,y=0,z=0;
+		delete this->geo;
+		this->geo=new Geometry(5); // Maybe read first GRID Size
+		
+		bson_iter_t iter;
+		bson_iter_t childX;
+		bson_iter_t childY;
+		bson_iter_t childZ;
+		
+		bson_iter_init(&iter,doc);
+		bson_iter_find_descendant(&iter,"voxels",&childX);
+		
+		std::cout << "BSON Key: " << bson_iter_key(&childX) << std::endl;
+		bson_iter_recurse(&iter,&childX);
+		while(bson_iter_next(&childX)){
+			bson_iter_recurse(&childX,&childY);
+			while(bson_iter_next(&childY)){
+				bson_iter_recurse(&childY,&childZ);
+				while(bson_iter_next(&childZ)){
+					//std::cout << "Voxel is: " << bson_iter_int32(&childZ) << std::endl;
+					this->geo->SetGrid(bson_iter_int32(&childZ),x,y,z);
+					z++;
+				}
+				z=0;
+				y++;
+			}
+			y=0;
+			x++;
+		}
+		
 		
 		char *str;
 		str = bson_as_json (doc, NULL);
@@ -148,20 +178,28 @@ void Core::SaveFile(std::string filename)
 	}
 	bson_append_array_end(&kovel,&voxels);
 	
-	// Validate
+	// Validate and Write
+	if(this->ValidateFile()){
+		std::ofstream outfile;
+		outfile.open(filename,std::ios::binary | std::ios::out);
+	
+		outfile.write((char*)bson_get_data(&kovel),kovel.len);
+	
+		outfile.close();
+	}else{
+		std::cerr << "ERROR: Kovel file was badformed" << std::endl;
+	}
+
+}
+
+bool Core::ValidateFile()
+{
 	size_t offset;
 	if(bson_validate(&kovel,BSON_VALIDATE_UTF8_ALLOW_NULL,&offset)){
-		std::cout << "KOVEL - Save file validation: OK" << std::endl;
+		return true;
+	}else{
+		return false;
 	}
-	
-	// WRITE FILE
-	
-	std::ofstream outfile;
-	outfile.open(filename,std::ios::binary | std::ios::out);
-	
-	outfile.write((char*)bson_get_data(&kovel),kovel.len);
-	
-	outfile.close();
 }
 
 void Core::UpdateMetadata()

@@ -203,6 +203,9 @@ class WorkPanel : public wxPanel{
 		void CleanGrid(wxCommandEvent& evt){
 			workSide->ClearGrid();
 		}
+		void UpdateGrid(){
+			workSide->ReloadWorkGrid();
+		}
 };
 
 
@@ -256,8 +259,9 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	wxMenuItem* newFile=new wxMenuItem(file,wxID_NEW,"&New file");
 	file->Append(newFile);
 	file->Append(wxID_OPEN,"&Open file");
-	Bind(wxEVT_MENU,[core](wxCommandEvent&)->void{
+	Bind(wxEVT_MENU,[core,workTwo](wxCommandEvent&)->void{
 		core->LoadFile("KOVEL.kvl");
+		workTwo->UpdateGrid();
 	},wxID_OPEN);
 	wxMenuItem* saveFile=new wxMenuItem(file,wxID_SAVE,"&Save file");
 	file->Append(saveFile);
