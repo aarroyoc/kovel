@@ -258,16 +258,32 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	wxMenu* file=new wxMenu;
 	wxMenuItem* newFile=new wxMenuItem(file,wxID_NEW,"&New file");
 	file->Append(newFile);
+	
 	file->Append(wxID_OPEN,"&Open file");
-	Bind(wxEVT_MENU,[core,workTwo](wxCommandEvent&)->void{
-		core->LoadFile("KOVEL.kvl");
+	Bind(wxEVT_MENU,[core,workTwo,this](wxCommandEvent&)->void{
+		
+		wxFileDialog* fileDlg=new wxFileDialog(this,"Open Kovel file","","","Kovel files (*.kvl)|*.kvl",wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+		if(fileDlg->ShowModal() == wxID_CANCEL)
+			return;
+		core->LoadFile(fileDlg->GetPath().ToStdString());
 		workTwo->UpdateGrid();
+		this->SetLabel(fileDlg->GetPath() + " -- Kovel - Voxel Editor");
 	},wxID_OPEN);
+	
 	wxMenuItem* saveFile=new wxMenuItem(file,wxID_SAVE,"&Save file");
 	file->Append(saveFile);
-	Bind(wxEVT_MENU,[core](wxCommandEvent &)->void{
-		core->SaveFile("KOVEL.kvl");
+	Bind(wxEVT_MENU,[core,this](wxCommandEvent &)->void{
+		
+		wxFileDialog* fileDlg=new wxFileDialog(this,"Save Kovel file","","","Kovel file (*.kvl)|*.kvl",wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+		if(fileDlg->ShowModal() == wxID_CANCEL)
+			return;
+		wxString path=fileDlg->GetPath();
+		if(!path.EndsWith(".kvl"))
+			path.Append(".kvl");
+		core->SaveFile(path.ToStdString());
+		this->SetLabel(path + " -- Kovel - Voxel Editor");
 	}, wxID_SAVE);
+	
 	file->Append(wxID_SAVEAS,"Save file as...");
 	file->AppendSeparator();
 	

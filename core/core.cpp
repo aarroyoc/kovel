@@ -95,8 +95,6 @@ void Core::LoadFile(std::string filename)
 		bson_t* doc;
 		doc=bson_new_from_data(buffer.data(),size);
 		
-		// DO REAL PROCESSING HERE
-		
 		short x=0,y=0,z=0;
 		delete this->geo;
 		this->geo=new Geometry(5); // Maybe read first GRID Size
@@ -141,7 +139,6 @@ void Core::LoadFile(std::string filename)
 			while(bson_iter_next(&childY)){
 				bson_iter_recurse(&childY,&childZ);
 				while(bson_iter_next(&childZ)){
-					//std::cout << "Voxel is: " << bson_iter_int32(&childZ) << std::endl;
 					if(bson_iter_type(&childZ) == BSON_TYPE_NULL){
 						this->geo->SetGrid(0,x,y,z);
 					}
@@ -156,7 +153,6 @@ void Core::LoadFile(std::string filename)
 								mat[x][y][z]=material[matName];
 							}
 						}
-						
 					}
 					z++;
 				}
@@ -226,8 +222,6 @@ void Core::SaveFile(std::string filename)
 				}else{
 					bson_append_null(&voxelZ,"NULL",-1);
 				}
-				//bson_append_null(&voxelZ,"NULL",-1);
-				//BSON_APPEND_INT32(&voxelZ,"Voxel",this->geo->GetGrid(i,j,k));
 			}
 			bson_append_array_end(&voxelY,&voxelZ);
 		}
