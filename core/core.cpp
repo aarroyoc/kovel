@@ -39,7 +39,7 @@ void Core::NewFile(unsigned short g)
 	bson_init(&kovel);
 	
 	// METADATA
-	bson_t metadata;
+	/*bson_t metadata;
 	bson_append_document_begin(&kovel,"metadata",-1,&metadata);
 	BSON_APPEND_UTF8(&metadata,"name","Untitled");
 	BSON_APPEND_UTF8(&metadata,"creator","Unspecified");
@@ -62,11 +62,11 @@ void Core::NewFile(unsigned short g)
 			bson_append_array_begin(&voxelY,"VoxelZ",-1,&voxelZ);
 			for(int k=0;k<this->grid;k++){
 				bson_t voxelObject;
-				bson_append_null(&voxelZ,"NULL",-1);
+				bson_append_null(&voxelZ,"NULL",-1);*/
 				/*
 				bson_append_document_begin(&voxelZ,"VoxelObject",-1,&voxelObject);
 				bson_append_document_end(&voxelZ,&voxelObject);*/
-			}
+			/*}
 			bson_append_array_end(&voxelY,&voxelZ);
 		}
 		
@@ -79,7 +79,7 @@ void Core::NewFile(unsigned short g)
 	// Update UI
 	char *str;
 	str = bson_as_json (&kovel, NULL);
-	printf ("%s\n", str);
+	printf ("%s\n", str);*/
 }
 
 void Core::LoadFile(std::string filename)
@@ -102,14 +102,39 @@ void Core::LoadFile(std::string filename)
 		this->geo=new Geometry(5); // Maybe read first GRID Size
 		
 		bson_iter_t iter;
+		bson_iter_t materials;
+		bson_iter_t materialBSON;
 		bson_iter_t childX;
 		bson_iter_t childY;
 		bson_iter_t childZ;
 		
 		bson_iter_init(&iter,doc);
-		bson_iter_find_descendant(&iter,"voxels",&childX);
 		
-		std::cout << "BSON Key: " << bson_iter_key(&childX) << std::endl;
+		
+		// Materials
+		bson_iter_find_descendant(&iter,"materials",&materials);
+		bson_iter_recurse(&iter,&materials);
+		material.clear();
+		while(bson_iter_next(&materials)){
+			std::string matName=bson_iter_key(&materials);
+			Material mat(matName);
+			bson_iter_recurse(&materials,&materialBSON);
+			while(bson_iter_next(&materialBSON)){
+				if(strcmp(bson_iter_key(&materialBSON),"red") == 0){
+					mat.r=bson_iter_double(&materialBSON);
+				}
+				if(strcmp(bson_iter_key(&materialBSON),"green") == 0){
+					mat.g=bson_iter_double(&materialBSON);
+				}
+				if(strcmp(bson_iter_key(&materialBSON),"blue") == 0){
+					mat.b=bson_iter_double(&materialBSON);
+				}
+			}
+			material.insert({matName,mat});
+		}
+		
+		// Voxels
+		bson_iter_find_descendant(&iter,"voxels",&childX);
 		bson_iter_recurse(&iter,&childX);
 		while(bson_iter_next(&childX)){
 			bson_iter_recurse(&childX,&childY);
@@ -117,7 +142,22 @@ void Core::LoadFile(std::string filename)
 				bson_iter_recurse(&childY,&childZ);
 				while(bson_iter_next(&childZ)){
 					//std::cout << "Voxel is: " << bson_iter_int32(&childZ) << std::endl;
-					this->geo->SetGrid(bson_iter_int32(&childZ),x,y,z);
+					if(bson_iter_type(&childZ) == BSON_TYPE_NULL){
+						this->geo->SetGrid(0,x,y,z);
+					}
+					if(bson_iter_type(&childZ) == BSON_TYPE_DOCUMENT){
+						this->geo->SetGrid(1,x,y,z);
+						bson_iter_t voxelObject;
+						bson_iter_recurse(&childZ,&voxelObject);
+						while(bson_iter_next(&voxelObject)){
+							if(strcmp(bson_iter_key(&voxelObject),"material") == 0){
+								uint32_t length;
+								std::string matName=bson_iter_utf8(&voxelObject,&length);
+								mat[x][y][z]=material[matName];
+							}
+						}
+						
+					}
 					z++;
 				}
 				z=0;
@@ -152,7 +192,21 @@ void Core::SaveFile(std::string filename)
 	
 	// MATERIALS
 	
-	// DO MATERIALS
+	bson_t materials;
+	bson_append_document_begin(&kovel,"materials",-1,&materials);
+	
+
+	for(auto kv : material) {
+		bson_t materialBSON;
+		Material mat=kv.second;
+		bson_append_document_begin(&materials,mat.name.c_str(),-1,&materialBSON);
+		BSON_APPEND_DOUBLE(&materialBSON,"red",mat.r);
+		BSON_APPEND_DOUBLE(&materialBSON,"green",mat.g);
+		BSON_APPEND_DOUBLE(&materialBSON,"blue",mat.b);
+		bson_append_document_end(&materials,&materialBSON);
+	} 
+	
+	bson_append_document_end(&kovel,&materials);
 	
 	// VOXELS
 	bson_t voxels;
@@ -165,11 +219,15 @@ void Core::SaveFile(std::string filename)
 			bson_append_array_begin(&voxelY,"VoxelZ",-1,&voxelZ);
 			for(int k=0;k<this->grid;k++){
 				bson_t voxelObject;
+				if(this->geo->GetGrid(i,j,k)==1){
+					bson_append_document_begin(&voxelZ,"VoxelObject",-1,&voxelObject);
+					bson_append_utf8(&voxelObject,"material",-1,mat[i][j][k].name.c_str(),-1);
+					bson_append_document_end(&voxelZ,&voxelObject);
+				}else{
+					bson_append_null(&voxelZ,"NULL",-1);
+				}
 				//bson_append_null(&voxelZ,"NULL",-1);
-				BSON_APPEND_INT32(&voxelZ,"Voxel",this->geo->GetGrid(i,j,k));
-				/*
-				bson_append_document_begin(&voxelZ,"VoxelObject",-1,&voxelObject);
-				bson_append_document_end(&voxelZ,&voxelObject);*/
+				//BSON_APPEND_INT32(&voxelZ,"Voxel",this->geo->GetGrid(i,j,k));
 			}
 			bson_append_array_end(&voxelY,&voxelZ);
 		}

@@ -15,7 +15,9 @@ Extension: .kvl
 	},
 	"materials" : {
 		"MATERIAL_ID" : {
-			"color" : "",
+			"red" : "",
+			"green" : "",
+			"blue" : "",
 			"opacity" : "",
 			"texture" : "Base64 encoded texture"
 		}
@@ -23,7 +25,10 @@ Extension: .kvl
 	"voxels" : [ //X
 		[		// Y
 			[{
-				"materials" : {
+				/* Current */
+				"material" : "MATERIAL_ID",
+				/* In a future */
+				"material" : {
 					"top" : "MATERIAL_ID",
 					"bottom": "MATERIAL_ID",
 					"front" : "MATERIAL_ID",
@@ -32,7 +37,7 @@ Extension: .kvl
 					"right" : "MATERIAL_ID"
 				},
 				/* optional */
-				"custom_mesh" : CustomMeshObject /* To be implemented */
+				"custom_mesh" : CustomMeshObject or INTEGER /* To be implemented */
 			}] //Z
 		]
 	]
