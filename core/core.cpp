@@ -164,9 +164,9 @@ void Core::LoadFile(std::string filename)
 		}
 		
 		
-		char *str;
+		/*char *str;
 		str = bson_as_json (doc, NULL);
-		printf ("%s\n", str);
+		printf ("%s\n", str);*/
 	}
 
 }
