@@ -84,7 +84,7 @@ class Core{
 		Core(Core const&) = delete;              // Don't Implement.
         void operator=(Core const&) = delete; // Don't implement
     public:
-		void NewFile(unsigned short);
+		void NewFile(unsigned short gridSize);
 		void LoadFile(std::string filename);
 		void SaveFile(std::string filename);
 		void UpdateGrid(unsigned short value, unsigned short x, unsigned short y, unsigned short z);
@@ -93,9 +93,11 @@ class Core{
 		bool ValidateFile();
 		Geometry* geo;
 		Material3D mat;
+		std::string name;
+		std::string author;
+		unsigned short grid;
 	private:
 		bson_t kovel;
-		unsigned short grid;
 		static Core* pinstance;
 		float r,g,b;
 		std::unordered_map<std::string,Material> material;

@@ -7,6 +7,7 @@
 
 #include "window.hpp"
 #include "preview.hpp"
+#include "metadata.hpp"
 
 wxColourPickerCtrl* picker;
 
@@ -253,7 +254,11 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// COMPLETE OPTIONS BAR
 	
-	// FIX BUGS (X11 and First Material)
+	// (Three panels?)
+	
+	// Widget showing Y level
+	
+	// FIX BUGS (First Material)
 	
 	// AND PUBLISH 1.0
 	
@@ -263,6 +268,16 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	wxMenu* file=new wxMenu;
 	wxMenuItem* newFile=new wxMenuItem(file,wxID_NEW,"&New file");
 	file->Append(newFile);
+	Bind(wxEVT_MENU,[core,workTwo,this](wxCommandEvent&)->void{
+		MetadataDialog* metadata=new MetadataDialog(this,true);
+		if(metadata->ShowModal() == wxID_CANCEL) return;
+		//wxMessageBox(wxString::FromUTF8(metadata->author.c_str()));
+		core->NewFile(5);
+		core->name=metadata->name;
+		core->author=metadata->author;
+		workTwo->UpdateGrid();
+		this->SetLabel("(new file) -- Kovel - Voxel Editor");
+	},wxID_NEW);
 	
 	file->Append(wxID_OPEN,"&Open file");
 	Bind(wxEVT_MENU,[core,workTwo,this](wxCommandEvent&)->void{
@@ -303,6 +318,13 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	wxMenu* edit=new wxMenu;
 	edit->Append(wxID_UNDO,"&Undo");
 	edit->AppendSeparator();
+	edit->Append(65,"Edit &metadata");
+	Bind(wxEVT_MENU,[this,core](wxCommandEvent&)->void{
+		MetadataDialog* metadata=new MetadataDialog(this,false);
+		if(metadata->ShowModal() == wxID_CANCEL) return;
+		core->name=metadata->name;
+		core->author=metadata->author;
+	},65);
 	wxMenuItem* clearWorkGrid=new wxMenuItem(edit,66,"Clear work grid");
 	edit->Append(clearWorkGrid);
 	Bind(wxEVT_MENU,&WorkPanel::CleanGrid,workTwo,66);
