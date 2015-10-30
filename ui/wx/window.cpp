@@ -251,6 +251,11 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	//tool->SetBackgroundColour(green);
 	
+	// COMPLETE OPTIONS BAR
+	
+	// FIX BUGS
+	
+	// AND PUBLISH 1.0
 	
 	// MenuBar
 	wxMenuBar* menuBar=new wxMenuBar;
