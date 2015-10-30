@@ -253,7 +253,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// COMPLETE OPTIONS BAR
 	
-	// FIX BUGS
+	// FIX BUGS (X11 and First Material)
 	
 	// AND PUBLISH 1.0
 	

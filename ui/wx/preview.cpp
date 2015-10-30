@@ -28,7 +28,7 @@ PreviewPanel::PreviewPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY,wxDefault
 
 void PreviewPanel::OnIdle(wxIdleEvent& event)
 {
-	if(!canvas->IsShown()) return;
+	if(!canvas->IsShownOnScreen()) return;
 	Core* core=Core::Instance();
 	wxSize size=this->GetSize();
 	wxClientDC(this);
@@ -39,7 +39,7 @@ void PreviewPanel::OnIdle(wxIdleEvent& event)
 
 void PreviewPanel::OnPaint(wxPaintEvent& event)
 {
-	if(!canvas->IsShown()) return;
+	if(!canvas->IsShownOnScreen()) return;
 	Core* core=Core::Instance();
 	wxSize size=this->GetSize();
 	wxPaintDC(this);
