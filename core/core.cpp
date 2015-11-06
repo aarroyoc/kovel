@@ -1,4 +1,5 @@
 #include "core.hpp"
+#include "version.hpp"
 
 
 Core* Core::pinstance = 0;
@@ -210,6 +211,112 @@ bool Core::ValidateFile()
 	}else{
 		return false;
 	}
+}
+
+bool Core::ExportAsJSON(std::string filename)
+{
+	if(this->ValidateFile()){
+		std::ofstream outfile;
+		outfile.open(filename,std::ios::out);
+		outfile << bson_as_json (&kovel, NULL);
+		outfile.close();
+		return true;
+	}else{
+		return false;
+	}
+}
+
+bool Core::ExportAsDAE(std::string filename)
+{
+	std::ofstream ss;
+	ss.open(filename,std::ios::out);
+	ss << "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+	ss << "<COLLADA xmlns=\"http://www.collada.org/2005/11/COLLADASchema\" version=\"1.4.1\">";
+		ss << "<asset>";
+			ss << "<contributor>";
+				ss << "<author>";
+					ss << "Kovel User";
+				ss << "</author>";
+				ss << "<authoring_tool>";
+					ss << "Kovel 1.0";
+				ss << "</authoring_tool>";
+			ss << "</contributor>";
+			ss << "<up_axis>";
+				ss << "Z_UP";
+			ss << "</up_axis>";
+			ss << "<unit name=\"meter\" meter=\"1\"/>";
+		ss << "</asset>";
+		
+		ss << "<library_geometries>";
+			ss << "<geometry id=\"Cube-mesh\" name=\"Cube\">";
+			  ss << "<mesh>";
+				ss << "<source id=\"Cube-mesh-positions\">";
+				  ss << "<float_array id=\"Cube-mesh-positions-array\" count=\"24\">1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1</float_array>";
+				  ss << "<technique_common>";
+					ss << "<accessor source=\"#Cube-mesh-positions-array\" count=\"8\" stride=\"3\">";
+					  ss << "<param name=\"X\" type=\"float\"/>";
+					  ss << "<param name=\"Y\" type=\"float\"/>";
+					  ss << "<param name=\"Z\" type=\"float\"/>";
+					ss << "</accessor>";
+				  ss << "</technique_common>";
+				ss << "</source>";
+				ss << "<source id=\"Cube-mesh-normals\">";
+				  ss << "<float_array id=\"Cube-mesh-normals-array\" count=\"36\">0 0 -1 0 0 1 1 -5.96046e-7 3.27825e-7 -4.76837e-7 -1 0 -1 2.38419e-7 -1.19209e-7 2.08616e-7 1 0 0 0 -1 0 0 1 1 0 -2.38419e-7 0 -1 -4.76837e-7 -1 2.38419e-7 -1.49012e-7 2.68221e-7 1 2.38419e-7</float_array>";
+				  ss << "<technique_common>";
+					ss << "<accessor source=\"#Cube-mesh-normals-array\" count=\"12\" stride=\"3\">";
+					  ss << "<param name=\"X\" type=\"float\"/>";
+					  ss << "<param name=\"Y\" type=\"float\"/>";
+					  ss << "<param name=\"Z\" type=\"float\"/>";
+					ss << "</accessor>";
+				  ss << "</technique_common>";
+				ss << "</source>";
+				ss << "<vertices id=\"Cube-mesh-vertices\">";
+				  ss << "<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\"/>";
+				ss << "</vertices>";
+				ss << "<polylist material=\"Material-material\" count=\"12\">";
+				  ss << "<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"0\"/>";
+				  ss << "<input semantic=\"NORMAL\" source=\"#Cube-mesh-normals\" offset=\"1\"/>";
+				  ss << "<vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>";
+				  ss << "<p>0 0 1 0 2 0 7 1 6 1 5 1 4 2 5 2 1 2 5 3 6 3 2 3 2 4 6 4 7 4 0 5 3 5 7 5 3 6 0 6 2 6 4 7 7 7 5 7 0 8 4 8 1 8 1 9 5 9 2 9 3 10 2 10 7 10 4 11 0 11 7 11</p>";
+				ss << "</polylist>";
+			  ss << "</mesh>";
+			ss << "</geometry>";
+		  ss << "</library_geometries>";
+		
+		ss << "<library_materials>";
+		
+		ss << "</library_materials>";
+		
+		ss << "<library_visual_scenes>";
+			ss << "<visual_scene id=\"Scene\" name=\"Scene\">";
+			for(int i=0;i<this->grid;i++){
+				for(int j=0;j<this->grid;j++){
+					for(int k=0;k<this->grid;k++){
+						if(this->geo->GetGrid(i,j,k)==1){	
+							ss << "<node>";
+								ss << "<matrix sid=\"transform\">";
+									ss << "1 0 0 " << i*2 << " 0 1 0 " << j*2 << " 0 0 1 " << k*2 << " 0 0 0 1";
+								ss << "</matrix>";
+								
+								ss << "<instance_geometry url=\"#Cube-mesh\" name=\"Voxel\">";
+								
+								ss << "</instance_geometry>";
+							ss << "</node>";
+						}
+					}
+				}
+			}
+			ss << "</visual_scene>";
+		ss << "</library_visual_scenes>";
+		
+		ss << "<scene>";
+			ss << "<instance_visual_scene url=\"#Scene\" />";
+		ss << "</scene>";
+	ss << "</COLLADA>";
+	
+	ss.close();
+	
+	return true;
 }
 
 void Core::UpdateMetadata()

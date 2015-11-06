@@ -91,6 +91,8 @@ class Core{
 		void UpdateMetadata();
 		void SetMaterial(Material mat);
 		bool ValidateFile();
+		bool ExportAsJSON(std::string filename);
+		bool ExportAsDAE(std::string filename);
 		Geometry* geo;
 		Material3D mat;
 		std::string name;

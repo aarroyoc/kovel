@@ -10,6 +10,7 @@
 #include "metadata.hpp"
 
 wxColourPickerCtrl* picker;
+wxString FILE_PATH;
 
 class ToolPanelOld : public wxPanel{
 	public:
@@ -260,6 +261,10 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// FIX BUGS (First Material)
 	
+	// Export as JSON
+	
+	// Export as DAE
+	
 	// AND PUBLISH 1.0
 	
 	// MenuBar
@@ -285,6 +290,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 		wxFileDialog* fileDlg=new wxFileDialog(this,"Open Kovel file","","","Kovel files (*.kvl)|*.kvl",wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 		if(fileDlg->ShowModal() == wxID_CANCEL)
 			return;
+		FILE_PATH=fileDlg->GetPath();
 		core->LoadFile(fileDlg->GetPath().ToStdString());
 		workTwo->UpdateGrid();
 		this->SetLabel(fileDlg->GetPath() + " -- Kovel - Voxel Editor");
@@ -293,18 +299,62 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	wxMenuItem* saveFile=new wxMenuItem(file,wxID_SAVE,"&Save file");
 	file->Append(saveFile);
 	Bind(wxEVT_MENU,[core,this](wxCommandEvent &)->void{
-		
-		wxFileDialog* fileDlg=new wxFileDialog(this,"Save Kovel file","","","Kovel file (*.kvl)|*.kvl",wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
-		if(fileDlg->ShowModal() == wxID_CANCEL)
-			return;
-		wxString path=fileDlg->GetPath();
-		if(!path.EndsWith(".kvl"))
-			path.Append(".kvl");
-		core->SaveFile(path.ToStdString());
-		this->SetLabel(path + " -- Kovel - Voxel Editor");
+		if(this->GetLabel().StartsWith("(new file)")){
+			wxFileDialog* fileDlg=new wxFileDialog(this,"Save Kovel file","","","Kovel file (*.kvl)|*.kvl",wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+			if(fileDlg->ShowModal() == wxID_CANCEL)
+				return;
+			FILE_PATH=fileDlg->GetPath();
+			if(!FILE_PATH.EndsWith(".kvl"))
+				FILE_PATH.Append(".kvl");
+			core->SaveFile(FILE_PATH.ToStdString());
+			this->SetLabel(FILE_PATH + " -- Kovel - Voxel Editor");
+		}else{
+			core->SaveFile(FILE_PATH.ToStdString());
+		}
 	}, wxID_SAVE);
 	
 	file->Append(wxID_SAVEAS,"Save file as...");
+	Bind(wxEVT_MENU,[core,this](wxCommandEvent&)->void{
+		wxFileDialog* fileDlg=new wxFileDialog(this,"Save Kovel file","","","Kovel file (*.kvl)|*.kvl",wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+		if(fileDlg->ShowModal() == wxID_CANCEL)
+			return;
+		FILE_PATH=fileDlg->GetPath();
+		if(!FILE_PATH.EndsWith(".kvl"))
+			FILE_PATH.Append(".kvl");
+		core->SaveFile(FILE_PATH.ToStdString());
+		this->SetLabel(FILE_PATH + " -- Kovel - Voxel Editor");
+	}, wxID_SAVEAS);
+	
+	file->AppendSeparator();
+	
+	/* EXPORT */
+	
+	file->Append(63,"Export as JSON...");
+	Bind(wxEVT_MENU,[core,this](wxCommandEvent&)->void{
+		wxFileDialog* fileDlg=new wxFileDialog(this,"Save JSON file","","","JSON file (*.json)|*.json",wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+		if(fileDlg->ShowModal() == wxID_CANCEL)
+			return;
+		wxString jsonPath=fileDlg->GetPath();
+		if(!jsonPath.EndsWith(".json"))
+			jsonPath.Append(".json");
+		bool ret=core->ExportAsJSON(jsonPath.ToStdString());
+		if(!ret)
+			wxMessageBox("Please, save your file first","Error",wxOK | wxICON_ERROR);
+	},63);
+	
+	file->Append(64,"Export as Collada DAE...");
+	Bind(wxEVT_MENU,[core,this](wxCommandEvent&)->void{
+		wxFileDialog* fileDlg=new wxFileDialog(this,"Save Collada DAE file","","","Collada DAE (*.dae)|*.dae",wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+		if(fileDlg->ShowModal() == wxID_CANCEL)
+			return;
+		wxString daePath=fileDlg->GetPath();
+		if(!daePath.EndsWith(".dae"))
+			daePath.Append(".dae");
+		bool ret=core->ExportAsDAE(daePath.ToStdString());
+		if(!ret)
+			wxMessageBox("Please, save your file first","Error",wxOK | wxICON_ERROR);
+	},64);
+	
 	file->AppendSeparator();
 	
 	wxMenuItem* exit=new wxMenuItem(file,wxID_EXIT,"&Exit");
