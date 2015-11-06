@@ -242,7 +242,7 @@ bool Core::ExportAsDAE(std::string filename)
 				ss << "</authoring_tool>";
 			ss << "</contributor>";
 			ss << "<up_axis>";
-				ss << "Z_UP";
+				ss << "Y_UP";
 			ss << "</up_axis>";
 			ss << "<unit name=\"meter\" meter=\"1\"/>";
 		ss << "</asset>";
@@ -283,8 +283,50 @@ bool Core::ExportAsDAE(std::string filename)
 			ss << "</geometry>";
 		  ss << "</library_geometries>";
 		
-		ss << "<library_materials>";
+		  ss << "<library_effects>";
+			for(auto kv : material) {
+				Material mat=kv.second;
+				std::string str=mat.name;
+				str.erase (std::remove (str.begin(), str.end(), ' '), str.end());
+			ss << "<effect id=\"Material-effect-" << str << "\">";
+			  ss << "<profile_COMMON>";
+				ss << "<technique sid=\"common\">";
+				  ss << "<phong>";
+					ss << "<emission>";
+					  ss << "<color sid=\"emission\">0 0 0 1</color>";
+					ss << "</emission>";
+					ss << "<ambient>";
+					  ss << "<color sid=\"ambient\">0 0 0 1</color>";
+					ss << "</ambient>";
+					ss << "<diffuse>";
+					  ss << "<color sid=\"diffuse\">" << mat.r << " " << mat.g << " " << mat.b << " 1</color>";
+					ss << "</diffuse>";
+					ss << "<specular>";
+					  ss << "<color sid=\"specular\">0.5 0.5 0.5 1</color>";
+					ss << "</specular>";
+					ss << "<shininess>";
+					  ss << "<float sid=\"shininess\">50</float>";
+					ss << "</shininess>";
+					ss << "<index_of_refraction>";
+					  ss << "<float sid=\"index_of_refraction\">1</float>";
+					ss << "</index_of_refraction>";
+				  ss << "</phong>";
+				ss << "</technique>";
+			  ss << "</profile_COMMON>";
+			ss << "</effect>";
+		}
+		  ss << "</library_effects>";
 		
+		
+		ss << "<library_materials>";
+			for(auto kv : material){
+				Material mat=kv.second;
+				std::string str=mat.name;
+				str.erase (std::remove (str.begin(), str.end(), ' '), str.end());
+			ss << "<material id=\"Material-" << str << "\" name=\"Material\">";
+				ss << "<instance_effect url=\"#Material-effect-" << str << "\"/>";
+			ss << "</material>";
+			}
 		ss << "</library_materials>";
 		
 		ss << "<library_visual_scenes>";
@@ -299,7 +341,13 @@ bool Core::ExportAsDAE(std::string filename)
 								ss << "</matrix>";
 								
 								ss << "<instance_geometry url=\"#Cube-mesh\" name=\"Voxel\">";
-								
+									ss << "<bind_material>";
+										ss << "<technique_common>";
+											std::string str=mat[i][j][k].name;
+											str.erase (std::remove (str.begin(), str.end(), ' '), str.end());
+											ss << "<instance_material symbol=\"Material-" << str << "\" target=\"#Material-" << str << "\"/>";
+										ss << "</technique_common>";
+									ss << "</bind_material>";
 								ss << "</instance_geometry>";
 							ss << "</node>";
 						}
