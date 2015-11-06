@@ -257,6 +257,8 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// (Three panels?)
 	
+	// Command Line Tool
+	
 	// Widget showing Y level
 	
 	// FIX BUGS (First Material)
