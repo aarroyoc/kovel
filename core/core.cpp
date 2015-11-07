@@ -238,7 +238,7 @@ bool Core::ExportAsDAE(std::string filename)
 					ss << "Kovel User";
 				ss << "</author>";
 				ss << "<authoring_tool>";
-					ss << "Kovel 1.0";
+					ss << "Kovel " << KOVEL_VERSION;
 				ss << "</authoring_tool>";
 			ss << "</contributor>";
 			ss << "<up_axis>";

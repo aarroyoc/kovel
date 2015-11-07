@@ -28,7 +28,7 @@ INCLUDE_DIRECTORIES("libbson/src/bson")
 INCLUDE_DIRECTORIES("${PROJECT_BINARY_DIR}/libbson/src/bson")
 
 ADD_EXECUTABLE(Kovel ${KOVEL_SRC})
-ADD_EXECUTABLE(kovelcli ${CLI_SRC})
+ADD_EXECUTABLE(kovelcli ${CLI_SRC} ${CORE_SRC})
 
 TARGET_LINK_LIBRARIES(Kovel bson_static)
 TARGET_LINK_LIBRARIES(kovelcli bson_static)
