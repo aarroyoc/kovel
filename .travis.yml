@@ -14,7 +14,7 @@ install:
  - docker pull $DOCKER_IMAGE
 script:
  - if [ "${PKG}" = "DEB" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && apt-get update && apt-get install -y cmake g++ libwxgtk3.0-dev libwxbase3.0-dev wx3.0-headers wx-common libxml2-utils && ./build_wx.sh" 
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && apt-get update && apt-get install -y cmake g++ libwxgtk3.0-dev libwxbase3.0-dev wx3.0-headers wx-common libxml2-utils python && ./build_wx.sh" 
       ;
       fi
  - if [ "${PKG}" = "DNF" ]; then
