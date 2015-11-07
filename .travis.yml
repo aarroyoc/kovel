@@ -5,7 +5,7 @@ env:
  - DOCKER_IMAGE="ubuntu:wily" PKG="DEB"
  - DOCKER_IMAGE="debian:jessie" PKG="DEB"
  - DOCKER_IMAGE="debian:sid" PKG="DEB"
- - DOCKER_IMAGE="fedora:22" PKG="DNF"
+ - DOCKER_IMAGE="fedora:23" PKG="DNF"
  - DOCKER_IMAGE="opensuse:tumbleweed" PKG="ZYPPER"
  - DOCKER_IMAGE="debian:experimental" PKG="DEB"
 services:
@@ -18,7 +18,7 @@ script:
       ;
       fi
  - if [ "${PKG}" = "DNF" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && dnf -y install cmake gcc-c++ wxGTK3-devel wxGTK3-gl && ./build_wx.sh"
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && dnf -y install cmake gcc-c++ wxGTK3-devel wxGTK3-gl gcc make python libxml2-devel && ./build_wx.sh"
       ;
    fi
  - if [ "${PKG}" = "ZYPPER" ]; then
@@ -31,6 +31,6 @@ matrix:
   - env: DOCKER_IMAGE="ubuntu:trusty" PKG="DEB"
   - env: DOCKER_IMAGE="ubuntu:vivid" PKG="DEB"
   - env: DOCKER_IMAGE="debian:jessie" PKG="DEB"
-  - env: DOCKER_IMAGE="fedora:22" PKG="DNF"
+  - env: DOCKER_IMAGE="fedora:23" PKG="DNF"
   - env: DOCKER_IMAGE="opensuse:tumbleweed" PKG="ZYPPER"
   - env: DOCKER_IMAGE="debian:experimental" PKG="DEB"
