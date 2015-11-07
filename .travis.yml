@@ -14,15 +14,15 @@ install:
  - docker pull $DOCKER_IMAGE
 script:
  - if [ "${PKG}" = "DEB" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && apt-get update && apt-get install -y cmake g++ libwxgtk3.0-dev libwxbase3.0-dev wx3.0-headers wx-common && cmake . -DWX_UI=ON && make" 
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && apt-get update && apt-get install -y cmake g++ libwxgtk3.0-dev libwxbase3.0-dev wx3.0-headers wx-common libxml2-utils && ./build_wx.sh" 
       ;
       fi
  - if [ "${PKG}" = "DNF" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && dnf -y install cmake gcc-c++ wxGTK3-devel wxGTK3-gl && cmake . -DWX_UI=ON && make"
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && dnf -y install cmake gcc-c++ wxGTK3-devel wxGTK3-gl && ./build_wx.sh"
       ;
    fi
  - if [ "${PKG}" = "ZYPPER" ]; then
-       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && zypper --non-interactive refresh && zypper --non-interactive install cmake gcc-c++ wxWidgets-2_9 && cmake . -DWX_UI=ON && make"
+       docker run -v $PWD:/cmake -t $DOCKER_IMAGE /bin/bash -c "cd /cmake && zypper --non-interactive refresh && zypper --non-interactive install cmake gcc-c++ wxWidgets-2_9 && ./build_wx.sh"
        ;
    fi
 
