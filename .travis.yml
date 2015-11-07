@@ -6,6 +6,8 @@ env:
  - DOCKER_IMAGE="debian:jessie" PKG="DEB"
  - DOCKER_IMAGE="debian:sid" PKG="DEB"
  - DOCKER_IMAGE="fedora:23" PKG="DNF"
+ - DOCKER_IMAGE="fedora:22" PKG="DNF"
+ - DOCKER_IMAGE="fedora:latest" PKG="DNF"
  - DOCKER_IMAGE="opensuse:tumbleweed" PKG="ZYPPER"
  - DOCKER_IMAGE="debian:experimental" PKG="DEB"
 services:
@@ -32,5 +34,7 @@ matrix:
   - env: DOCKER_IMAGE="ubuntu:vivid" PKG="DEB"
   - env: DOCKER_IMAGE="debian:jessie" PKG="DEB"
   - env: DOCKER_IMAGE="fedora:23" PKG="DNF"
+  - env: DOCKER_IMAGE="fedora:22" PKG="DNF"
+  - env: DOCKER_IMAGE="fedora:latest" PKG="DNF"
   - env: DOCKER_IMAGE="opensuse:tumbleweed" PKG="ZYPPER"
   - env: DOCKER_IMAGE="debian:experimental" PKG="DEB"
