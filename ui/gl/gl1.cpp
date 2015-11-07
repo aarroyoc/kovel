@@ -79,7 +79,7 @@ void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z,
 	glEnd();
 }
 
-void GlPreviewer::Render(int width, int height, Geometry* geo, Material3D mat)
+void GlPreviewer::Render(int width, int height, Geometry* geo, Material3D mat, float zoom)
 {
 	// USE OLD OPENGL 1 code
 	glClearColor(0.0,0.0,0.0,1.0);
@@ -90,7 +90,7 @@ void GlPreviewer::Render(int width, int height, Geometry* geo, Material3D mat)
 	// Isometric
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-10.0f, 10.0f, -10.0f, 10.0f, -10.0f, 10.0f);
+	glOrtho(-10.0f + zoom, 10.0f - zoom, -10.0f + zoom, 10.0f - zoom, -10.0f, 10.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glRotatef(35.264f, 1.0f, 0.0f, 0.0f);

@@ -33,7 +33,7 @@ void PreviewPanel::OnIdle(wxIdleEvent& event)
 	wxSize size=this->GetSize();
 	wxClientDC(this);
 	canvas->SetCurrent(*ctx);
-	gl->Render(size.GetWidth(),size.GetHeight(),core->geo,core->mat);
+	gl->Render(size.GetWidth(),size.GetHeight(),core->geo,core->mat,zoom);
 	canvas->SwapBuffers();
 }
 
@@ -44,6 +44,6 @@ void PreviewPanel::OnPaint(wxPaintEvent& event)
 	wxSize size=this->GetSize();
 	wxPaintDC(this);
 	canvas->SetCurrent(*ctx);
-	gl->Render(size.GetWidth(),size.GetHeight(),core->geo,core->mat);
+	gl->Render(size.GetWidth(),size.GetHeight(),core->geo,core->mat,zoom);
 	canvas->SwapBuffers();
 }

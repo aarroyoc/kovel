@@ -4,10 +4,13 @@
 #include <wx/clrpicker.h>
 #include <wx/colordlg.h>
 #include <wx/statline.h>
+#include <wx/aboutdlg.h>
 
 #include "window.hpp"
 #include "preview.hpp"
 #include "metadata.hpp"
+
+#include "../../core/version.hpp"
 
 wxColourPickerCtrl* picker;
 wxString FILE_PATH;
@@ -257,15 +260,33 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// (Three panels?)
 	
-	// Command Line Tool
+	// Command Line Tool - Done
 	
 	// Widget showing Y level
 	
+	// Zoom indicator
+	
+	// Zoom button
+	
 	// FIX BUGS (First Material)
 	
-	// Export as JSON
+	// Export as JSON - Done
 	
-	// Export as DAE
+	// Export as DAE - Done
+	
+	// Icon
+	
+	// Capturas de pantalla
+	
+	// Marketing
+	
+	// homepage
+	
+	// DesdeLinux
+	
+	// Blog
+	
+	// Packaging (Debian, DESKTOP file)
 	
 	// AND PUBLISH 1.0
 	
@@ -401,8 +422,14 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	
 	wxMenu* navigate=new wxMenu;
-	navigate->Append(wxID_ANY,"Zoom &in");
-	navigate->Append(wxID_ANY,"Zoom &out");
+	navigate->Append(68,"Zoom &in");
+	Bind(wxEVT_MENU,[preview](wxCommandEvent&)->void{
+		preview->zoom+=1.0f;
+	},68);
+	navigate->Append(69,"Zoom &out");
+	Bind(wxEVT_MENU,[preview](wxCommandEvent&)->void{
+		preview->zoom-=1.0f;
+	},69);
 	navigate->AppendSeparator();
 	navigate->Append(wxID_ANY,"Rotate left");
 	navigate->Append(wxID_ANY,"Rotate right");
@@ -411,9 +438,26 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	wxMenu* help=new wxMenu;
 	help->Append(wxID_ANY,"Legacy OpenGL 1.0"); // Change to GL ES 2.0 in a future
-	help->Append(wxID_ANY,"Visit author website");
+	help->Append(100,"Visit author website");
+	Bind(wxEVT_MENU,[this](wxCommandEvent&)->void{
+		wxLaunchDefaultBrowser(AUTHOR_URL);
+	},100);
 	help->AppendSeparator();
 	help->Append(wxID_ABOUT,"&About...");
+	Bind(wxEVT_MENU,[this](wxCommandEvent&)->void{
+		wxAboutDialogInfo aboutInfo;
+		aboutInfo.SetName("Kovel");
+		aboutInfo.SetVersion(KOVEL_VERSION);
+		aboutInfo.SetDescription(DESCRIPTION);
+		aboutInfo.SetCopyright(KOVEL_COPYRIGHT);
+		aboutInfo.SetWebSite(KOVEL_URL);
+		aboutInfo.AddDeveloper(wxString::FromUTF8(std::string("Adrián Arroyo Calle").c_str()));
+		
+		// SetICON
+		// SetLICENSE
+		
+		wxAboutBox(aboutInfo);
+	},wxID_ABOUT);
 	menuBar->Append(help,"&Help");
 	SetMenuBar(menuBar);
 	
