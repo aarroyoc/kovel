@@ -375,6 +375,8 @@ void Core::UpdateMetadata()
 
 void Core::Undo()
 {
+	if(undo.size() < 1)
+		return;
 	struct Undo u=undo.back();
 	undo.pop_back();
 	geo->SetGrid(u.value,u.x,u.y,u.z);

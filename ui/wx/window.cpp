@@ -401,7 +401,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	
 	wxMenu* edit=new wxMenu;
-	edit->Append(wxID_UNDO,"&Undo");
+	edit->Append(wxID_UNDO,"&Undo\tCtrl-Z");
 	Bind(wxEVT_MENU,[workTwo,core](wxCommandEvent&)->void{
 		core->Undo();
 		workTwo->UpdateGrid();
