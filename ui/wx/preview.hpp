@@ -12,6 +12,7 @@ class PreviewPanel : public wxPanel{
 		void OnPaint(wxPaintEvent& event);
 		void OnIdle(wxIdleEvent& event);
 		float zoom=0.0f;
+		float rotation=0.0f;
 	private:
 		wxGLCanvas* canvas;
 		wxGLContext* ctx;

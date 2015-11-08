@@ -15,7 +15,11 @@ PreviewPanel::PreviewPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY,wxDefault
 	
 	gl=new GlPreviewer();
 	
-	canvas=new wxGLCanvas(this,wxID_ANY,NULL,wxDefaultPosition,wxSize(100,100));
+	int attribList[]={
+		WX_GL_RGBA, WX_GL_DOUBLEBUFFER,WX_GL_DEPTH_SIZE,32,0
+	};
+	
+	canvas=new wxGLCanvas(this,wxID_ANY,attribList,wxDefaultPosition,wxSize(100,100));
 	ctx=new wxGLContext(canvas);
 	
 	
@@ -33,7 +37,7 @@ void PreviewPanel::OnIdle(wxIdleEvent& event)
 	wxSize size=this->GetSize();
 	wxClientDC(this);
 	canvas->SetCurrent(*ctx);
-	gl->Render(size.GetWidth(),size.GetHeight(),core->geo,core->mat,zoom);
+	gl->Render(size.GetWidth(),size.GetHeight(),core->geo,core->mat,zoom,rotation);
 	canvas->SwapBuffers();
 }
 
@@ -44,6 +48,6 @@ void PreviewPanel::OnPaint(wxPaintEvent& event)
 	wxSize size=this->GetSize();
 	wxPaintDC(this);
 	canvas->SetCurrent(*ctx);
-	gl->Render(size.GetWidth(),size.GetHeight(),core->geo,core->mat,zoom);
+	gl->Render(size.GetWidth(),size.GetHeight(),core->geo,core->mat,zoom,rotation);
 	canvas->SwapBuffers();
 }

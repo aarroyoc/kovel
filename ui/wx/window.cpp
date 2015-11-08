@@ -258,6 +258,8 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// COMPLETE OPTIONS BAR
 	
+	// Grid Size
+	
 	// (Three panels?)
 	
 	// Command Line Tool - Done
@@ -286,9 +288,21 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// Blog
 	
+	// Documentación man page
+	
 	// Packaging (Debian, DESKTOP file)
 	
 	// AND PUBLISH 1.0
+	
+	// In a future
+	
+	// GLES 2.0 render
+	
+	// Haiku UI
+	
+	// Android UI
+	
+	// QML/Ubuntu UI
 	
 	// MenuBar
 	wxMenuBar* menuBar=new wxMenuBar;
@@ -431,8 +445,14 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 		preview->zoom-=1.0f;
 	},69);
 	navigate->AppendSeparator();
-	navigate->Append(wxID_ANY,"Rotate left");
-	navigate->Append(wxID_ANY,"Rotate right");
+	navigate->Append(70,"Rotate left");
+	Bind(wxEVT_MENU,[preview](wxCommandEvent&)->void{
+		preview->rotation+=15;
+	},70);
+	navigate->Append(71,"Rotate right");
+	Bind(wxEVT_MENU,[preview](wxCommandEvent&)->void{
+		preview->rotation-=15;
+	},71);
 	menuBar->Append(navigate,"&Navigate");
 	
 	

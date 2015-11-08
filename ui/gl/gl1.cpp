@@ -79,11 +79,14 @@ void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z,
 	glEnd();
 }
 
-void GlPreviewer::Render(int width, int height, Geometry* geo, Material3D mat, float zoom)
+void GlPreviewer::Render(int width, int height, Geometry* geo, Material3D mat, float zoom, float rotation)
 {
 	// USE OLD OPENGL 1 code
 	glClearColor(0.0,0.0,0.0,1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 	
 	glViewport(0, 0, width, height);
 	
@@ -95,6 +98,8 @@ void GlPreviewer::Render(int width, int height, Geometry* geo, Material3D mat, f
 	glLoadIdentity();
 	glRotatef(35.264f, 1.0f, 0.0f, 0.0f);
 	glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
+	
+	glRotatef(rotation,0.0f,1.0f,0.0f);
 	
 	// Draw AXIS
 	glColor3f(1.0,0.0,0.0);
