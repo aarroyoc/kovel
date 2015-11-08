@@ -62,18 +62,18 @@ int main(int argc, char** argv)
 		std::cout << "Processing file: " << input << std::endl;
 		core->LoadFile(input);
 		
-		#ifdef WIN32
+		/*#ifdef WIN32
 		char* folder= getenv("TMP"); // Order: TMP, TEMP, USERPROFILE
 		strcat(folder,"\\");
-		#else /* UNIX compliant */
+		#else 
 		char* folder = getenv("TMPDIR"); // Order: TMPDIR, TMP, TEMP, TEMPDIR
 		if (folder == 0)
 			folder =(char*) "/tmp";
 		strcat(folder,"/");
 		#endif
 		
-		strcat(folder,"KovelExport.tmp.kvl");
-		core->SaveFile(folder);
+		strcat(folder,"KovelExport.tmp.kvl");*/
+		core->SaveFile("/tmp/KovelExport.tmp.kvl");
 		if(!core->ValidateFile()){
 			std::cerr << "Kovel file is not valid!" << std::endl;
 			return 2;

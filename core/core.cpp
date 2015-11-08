@@ -37,6 +37,8 @@ void Core::NewFile(unsigned short g)
 			mat.at(u)[v].resize(g);
 		}
 	}
+	name="";
+	author="";
 }
 
 void Core::LoadFile(std::string filename)
@@ -60,6 +62,7 @@ void Core::LoadFile(std::string filename)
 		bson_iter_t childX;
 		bson_iter_t childY;
 		bson_iter_t childZ;
+		bson_iter_t name;
 		
 		bson_iter_t metadata;
 		bson_iter_t countGrid;
@@ -73,9 +76,22 @@ void Core::LoadFile(std::string filename)
 		}
 		this->NewFile(loadedGridSize);
 		
+		// READ METADATA AND GRID SIZE
+		
 		bson_iter_init(&iter,doc);
 		
-		// READ METADATA AND GRID SIZE
+		bson_iter_find_descendant(&iter,"metadata",&name);
+		bson_iter_recurse(&iter,&name);
+		while(bson_iter_next(&name)){
+			if(strcmp(bson_iter_key(&name),"name") == 0){
+				uint32_t length;
+				this->name=bson_iter_utf8(&name,&length);
+			}
+			if(strcmp(bson_iter_key(&name),"creator") == 0){
+				uint32_t length;
+				this->author=bson_iter_utf8(&name,&length);
+			}
+		}
 		
 		// Materials
 		bson_iter_find_descendant(&iter,"materials",&materials);
@@ -145,7 +161,7 @@ void Core::SaveFile(std::string filename)
 	BSON_APPEND_UTF8(&metadata,"name",this->name.c_str());
 	BSON_APPEND_UTF8(&metadata,"creator",this->author.c_str());
 	BSON_APPEND_UTF8(&metadata,"date","");
-	BSON_APPEND_UTF8(&metadata,"version","1.0.0");
+	BSON_APPEND_UTF8(&metadata,"version",KOVEL_VERSION);
 	bson_append_document_end(&kovel,&metadata);
 	
 	

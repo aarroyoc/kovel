@@ -253,13 +253,15 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// COMPLETE OPTIONS BAR - Done
 	
-	// Grid Size
+	// Grid Size - Done
 	
 	// Read metadata
 	
 	// (Three panels?)
 	
 	// Command Line Tool - Done
+	
+	// TEMP FOLDER 
 	
 	// Widget showing Y level
 	
@@ -272,6 +274,12 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	// Export as JSON - Done
 	
 	// Export as DAE - Done
+	
+	// Open with MIME TYPE Double Click
+	
+	// - Mime Type
+	
+	// - Command Line Interface
 	
 	// Icon
 	
@@ -287,7 +295,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// Documentación man page
 	
-	// Packaging (Debian, DESKTOP file)
+	// Packaging (Debian, DESKTOP file, Windows MSI, Reg for MIME TYPE and actions)
 	
 	// AND PUBLISH 1.0
 	
