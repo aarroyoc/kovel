@@ -144,7 +144,8 @@ class GridPanel : public wxPanel{
 			wxPaintDC dc(this);
 			this->Render(dc);
 		}
-		void ReloadWorkGrid(){
+		void ReloadWorkGrid(unsigned short g){
+			GRID_SIZE=g;
 			Core* core=Core::Instance();
 			
 			/*for(int i=0;i<GRID_SIZE;i++){
@@ -168,19 +169,19 @@ class GridPanel : public wxPanel{
 					core->UpdateGrid(0,i,zCoord,j);
 				}
 			}
-			this->ReloadWorkGrid();
+			this->ReloadWorkGrid(GRID_SIZE);
 		}
 		void UpButton(wxCommandEvent& event){
 			zCoord++;
 			if(zCoord == GRID_SIZE)
 				zCoord--;
-			this->ReloadWorkGrid();
+			this->ReloadWorkGrid(GRID_SIZE);
 		}
 		void DownButton(wxCommandEvent& event){
 			zCoord--;
 			if(zCoord == -1)
 				zCoord++;
-			this->ReloadWorkGrid();
+			this->ReloadWorkGrid(GRID_SIZE);
 		}
 };
 
@@ -210,8 +211,8 @@ class WorkPanel : public wxPanel{
 		void CleanGrid(wxCommandEvent& evt){
 			workSide->ClearGrid();
 		}
-		void UpdateGrid(){
-			workSide->ReloadWorkGrid();
+		void UpdateGrid(unsigned short g){
+			workSide->ReloadWorkGrid(g);
 		}
 };
 
@@ -253,6 +254,8 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	// COMPLETE OPTIONS BAR - Done
 	
 	// Grid Size
+	
+	// Read metadata
 	
 	// (Three panels?)
 	
@@ -312,10 +315,10 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 		MetadataDialog* metadata=new MetadataDialog(this,true);
 		if(metadata->ShowModal() == wxID_CANCEL) return;
 		//wxMessageBox(wxString::FromUTF8(metadata->author.c_str()));
-		core->NewFile(5);
+		core->NewFile(metadata->gridSize);
 		core->name=metadata->name;
 		core->author=metadata->author;
-		workTwo->UpdateGrid();
+		workTwo->UpdateGrid(core->grid);
 		this->SetLabel("(new file) -- Kovel - Voxel Editor");
 	},wxID_NEW);
 	
@@ -327,7 +330,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 			return;
 		FILE_PATH=fileDlg->GetPath();
 		core->LoadFile(fileDlg->GetPath().ToStdString());
-		workTwo->UpdateGrid();
+		workTwo->UpdateGrid(core->grid);
 		this->SetLabel(fileDlg->GetPath() + " -- Kovel - Voxel Editor");
 	},wxID_OPEN);
 	
@@ -404,7 +407,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	edit->Append(wxID_UNDO,"&Undo\tCtrl-Z");
 	Bind(wxEVT_MENU,[workTwo,core](wxCommandEvent&)->void{
 		core->Undo();
-		workTwo->UpdateGrid();
+		workTwo->UpdateGrid(core->grid);
 	},wxID_UNDO);
 	
 	edit->AppendSeparator();

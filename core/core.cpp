@@ -16,15 +16,6 @@ Core* Core::Instance ()
 Core::Core()
 {
 	this->NewFile(5);
-	geo=new Geometry(5);
-	mat.clear();
-	mat.resize(5);
-	for(short u=0;u<5;u++){
-		mat.at(u).resize(5);
-		for(short v=0;v<5;v++){
-			mat.at(u)[v].resize(5);
-		}
-	}
 }
 
 Core::~Core()
@@ -39,6 +30,13 @@ void Core::NewFile(unsigned short g)
 	geo=new Geometry(g);
 	material.clear();
 	undo.clear();
+	mat.resize(g);
+	for(short u=0;u<g;u++){
+		mat.at(u).resize(g);
+		for(short v=0;v<g;v++){
+			mat.at(u)[v].resize(g);
+		}
+	}
 }
 
 void Core::LoadFile(std::string filename)
@@ -55,8 +53,6 @@ void Core::LoadFile(std::string filename)
 		doc=bson_new_from_data(buffer.data(),size);
 		
 		short x=0,y=0,z=0;
-		delete this->geo;
-		this->geo=new Geometry(5); // Maybe read first GRID Size
 		
 		bson_iter_t iter;
 		bson_iter_t materials;
@@ -64,6 +60,18 @@ void Core::LoadFile(std::string filename)
 		bson_iter_t childX;
 		bson_iter_t childY;
 		bson_iter_t childZ;
+		
+		bson_iter_t metadata;
+		bson_iter_t countGrid;
+		
+		unsigned short loadedGridSize=0;
+		bson_iter_init(&metadata,doc);
+		bson_iter_find_descendant(&metadata,"voxels",&countGrid);
+		bson_iter_recurse(&metadata,&countGrid);
+		while(bson_iter_next(&countGrid)){
+			loadedGridSize++;
+		}
+		this->NewFile(loadedGridSize);
 		
 		bson_iter_init(&iter,doc);
 		
@@ -122,11 +130,6 @@ void Core::LoadFile(std::string filename)
 			y=0;
 			x++;
 		}
-		
-		
-		/*char *str;
-		str = bson_as_json (doc, NULL);
-		printf ("%s\n", str);*/
 	}
 
 }
