@@ -219,14 +219,6 @@ class WorkPanel : public wxPanel{
 MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",wxDefaultPosition,wxSize(800,600),wxDEFAULT_FRAME_STYLE)
 {
 	Core* core=Core::Instance();
-	//core->LoadFile("SAMPLE.bson");
-	wxColourDatabase colorDb;
-	wxColour red,blue,green,yellow;
-	
-	red=colorDb.Find("RED");
-	blue=colorDb.Find("BLUE");
-	green=colorDb.Find("GREEN");
-	yellow=colorDb.Find("YELLOW");
 	
 	wxPanel* panel=new wxPanel(this,wxID_ANY);
 	
@@ -258,7 +250,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	//tool->SetBackgroundColour(green);
 	
-	// COMPLETE OPTIONS BAR
+	// COMPLETE OPTIONS BAR - Done
 	
 	// Grid Size
 	
@@ -268,11 +260,11 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// Widget showing Y level
 	
-	// Zoom indicator
+	// Zoom indicator - Done
 	
-	// Zoom button
+	// Zoom button - Done
 	
-	// FIX BUGS (First Material)
+	// FIX BUGS (First Material), Reset UNDO buffer on new File
 	
 	// Export as JSON - Done
 	
@@ -410,6 +402,11 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	wxMenu* edit=new wxMenu;
 	edit->Append(wxID_UNDO,"&Undo");
+	Bind(wxEVT_MENU,[workTwo,core](wxCommandEvent&)->void{
+		core->Undo();
+		workTwo->UpdateGrid();
+	},wxID_UNDO);
+	
 	edit->AppendSeparator();
 	edit->Append(65,"Edit &metadata");
 	Bind(wxEVT_MENU,[this,core](wxCommandEvent&)->void{

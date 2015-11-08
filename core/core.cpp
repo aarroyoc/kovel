@@ -38,6 +38,7 @@ void Core::NewFile(unsigned short g)
 	delete geo;
 	geo=new Geometry(g);
 	material.clear();
+	undo.clear();
 }
 
 void Core::LoadFile(std::string filename)
@@ -372,8 +373,26 @@ void Core::UpdateMetadata()
 	
 }
 
+void Core::Undo()
+{
+	struct Undo u=undo.back();
+	undo.pop_back();
+	geo->SetGrid(u.value,u.x,u.y,u.z);
+	mat[u.x][u.y][u.z]=u.material;
+}
+
 void Core::UpdateGrid(unsigned short value,unsigned short x, unsigned short y, unsigned short z)
 {
+	// Save state to Undo
+	
+	struct Undo u;
+	u.value=geo->GetGrid(x,y,z);
+	u.x=x;
+	u.y=y;
+	u.z=z;
+	u.material=mat[x][y][z];
+	undo.push_back(u);
+	
 	// Modify Geo
 	geo->SetGrid(value,x,y,z);
 	mat[x][y][z]=currentMat;

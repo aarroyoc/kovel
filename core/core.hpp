@@ -75,6 +75,14 @@ class Material{
 
 typedef std::vector<std::vector<std::vector<Material>>> Material3D;
 
+struct Undo{
+	unsigned short value;
+	unsigned short x;
+	unsigned short y;
+	unsigned short z;
+	Material material;
+};
+
 class Core{
 	public:
 		static Core* Instance();
@@ -93,11 +101,13 @@ class Core{
 		bool ValidateFile();
 		bool ExportAsJSON(std::string filename);
 		bool ExportAsDAE(std::string filename);
+		void Undo();
 		Geometry* geo;
 		Material3D mat;
 		std::string name;
 		std::string author;
 		unsigned short grid;
+		std::vector<struct Undo> undo;
 	private:
 		bson_t kovel;
 		static Core* pinstance;
