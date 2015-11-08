@@ -67,6 +67,8 @@ class ToolPanel : public wxPanel{
 			wxStaticLine* line=new wxStaticLine(this);
 			sizer->Add(line,0,wxEXPAND | wxALL);
 			
+			/* Texture selector will be here */
+			
 			SetSizer(sizer);
 		}
 };
@@ -245,7 +247,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	wxBoxSizer* mainSizer=new wxBoxSizer(wxVERTICAL);
 	mainSizer->Add(work,1,wxEXPAND | wxALL);
-	mainSizer->Add(preview,1,wxALIGN_CENTER | wxSHAPED);
+	mainSizer->Add(preview,1,wxEXPAND | wxALL);
 	main->SetSizer(mainSizer);
 	
 	wxBoxSizer* workSizer=new wxBoxSizer(wxHORIZONTAL);
@@ -303,6 +305,10 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	// Android UI
 	
 	// QML/Ubuntu UI
+	
+	// Textures
+	
+	// Custom mesh
 	
 	// MenuBar
 	wxMenuBar* menuBar=new wxMenuBar;

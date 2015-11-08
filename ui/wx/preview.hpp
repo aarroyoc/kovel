@@ -17,6 +17,8 @@ class PreviewPanel : public wxPanel{
 		wxGLCanvas* canvas;
 		wxGLContext* ctx;
 		GlPreviewer* gl;
+		wxStaticText* zoomLevel;
+		wxStaticText* rotationLevel;
 };
 
 #endif
