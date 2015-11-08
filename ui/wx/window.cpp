@@ -249,15 +249,12 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	//workSizer->Add(workThree,1,wxEXPAND | wxALL,5);
 	work->SetSizer(workSizer);
 	
-	//tool->SetBackgroundColour(green);
 	
 	// COMPLETE OPTIONS BAR - Done
 	
 	// Grid Size - Done
 	
-	// Read metadata
-	
-	// (Three panels?)
+	// Read metadata - Done
 	
 	// Command Line Tool - Done
 	
@@ -269,7 +266,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// Zoom button - Done
 	
-	// FIX BUGS (First Material), Reset UNDO buffer on new File
+	// FIX BUGS (First Material)
 	
 	// Export as JSON - Done
 	
@@ -300,6 +297,10 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	// AND PUBLISH 1.0
 	
 	// In a future
+	
+	// (Three panels?)
+	
+	// Panel color
 	
 	// GLES 2.0 render
 	
