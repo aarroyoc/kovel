@@ -39,6 +39,7 @@ void Core::NewFile(unsigned short g)
 	}
 	name="";
 	author="";
+	SetMaterial(currentMat);
 }
 
 void Core::LoadFile(std::string filename)
