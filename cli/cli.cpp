@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <sstream>
 #include "../core/core.hpp"
 #include "../core/version.hpp"
 
@@ -38,7 +39,8 @@ void ShowHelp()
 }
 
 int main(int argc, char** argv)
-{
+{	
+	
 	std::cout << "==============================" << std::endl;
 	std::cout << "KOVEL " << KOVEL_VERSION << std::endl;
 	std::cout << "(C) " << KOVEL_COPYRIGHT << std::endl;
@@ -61,19 +63,19 @@ int main(int argc, char** argv)
 		Core* core=Core::Instance();
 		std::cout << "Processing file: " << input << std::endl;
 		core->LoadFile(input);
-		
-		/*#ifdef WIN32
-		char* folder= getenv("TMP"); // Order: TMP, TEMP, USERPROFILE
-		strcat(folder,"\\");
-		#else 
-		char* folder = getenv("TMPDIR"); // Order: TMPDIR, TMP, TEMP, TEMPDIR
-		if (folder == 0)
-			folder =(char*) "/tmp";
-		strcat(folder,"/");
+
+
+		#ifdef WIN32
+		char* folder=std::getenv("TMP");
+		#else
+		char* folder=std::getenv("TMPDIR");
+		if(folder == 0)
+			folder=(char*)"/tmp";
 		#endif
-		
-		strcat(folder,"KovelExport.tmp.kvl");*/
-		core->SaveFile("/tmp/KovelExport.tmp.kvl");
+		std::stringstream path;
+		path << folder;
+		path << "/KovelExport.tmp.kvl";
+		core->SaveFile(path.str());
 		if(!core->ValidateFile()){
 			std::cerr << "Kovel file is not valid!" << std::endl;
 			return 2;

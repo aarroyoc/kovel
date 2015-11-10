@@ -266,7 +266,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// Zoom button - Done
 	
-	// FIX BUGS (First Material)
+	// FIX BUGS (First Material) - Done
 	
 	// Export as JSON - Done
 	
