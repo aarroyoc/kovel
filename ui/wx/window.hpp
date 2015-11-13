@@ -4,6 +4,7 @@
 class MainWindow : public wxFrame{
 	public:
 		MainWindow();
+		void LoadFile(wxString path);
 };
 
 #endif

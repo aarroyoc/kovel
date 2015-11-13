@@ -1,4 +1,4 @@
-
+#include "../../core/core.hpp"
 #include "wx/wx.h"
 
 #include "window.hpp"
@@ -9,9 +9,14 @@
 
 class KovelApp : public wxApp{
 	bool OnInit(){
+		wxInitAllImageHandlers();
 		MainWindow* win=new MainWindow();
 		win->Show();
 		win->Update();
+		
+		if(this->argc == 2){
+			win->LoadFile(this->argv[1]);
+		}
 		return true;
 	}
 };

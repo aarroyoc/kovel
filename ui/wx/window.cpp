@@ -216,6 +216,7 @@ class WorkPanel : public wxPanel{
 		}
 };
 
+WorkPanel* workTwo;
 
 MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",wxDefaultPosition,wxSize(800,600),wxDEFAULT_FRAME_STYLE)
 {
@@ -230,7 +231,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	PreviewPanel* preview=new PreviewPanel(main);
 	
 	WorkPanel* workOne=new WorkPanel(work);
-	WorkPanel* workTwo=new WorkPanel(work);
+	workTwo=new WorkPanel(work);
 	WorkPanel* workThree=new WorkPanel(work);
 	
 	wxBoxSizer* sizer=new wxBoxSizer(wxHORIZONTAL);
@@ -258,7 +259,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// Command Line Tool - Done
 	
-	// TEMP FOLDER 
+	// TEMP FOLDER - Done
 	
 	// Widget showing Y level
 	
@@ -332,15 +333,11 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	},wxID_NEW);
 	
 	file->Append(wxID_OPEN,"&Open file");
-	Bind(wxEVT_MENU,[core,workTwo,this](wxCommandEvent&)->void{
-		
+	Bind(wxEVT_MENU,[this](wxCommandEvent&)->void{
 		wxFileDialog* fileDlg=new wxFileDialog(this,"Open Kovel file","","","Kovel files (*.kvl)|*.kvl",wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 		if(fileDlg->ShowModal() == wxID_CANCEL)
 			return;
-		FILE_PATH=fileDlg->GetPath();
-		core->LoadFile(fileDlg->GetPath().ToStdString());
-		workTwo->UpdateGrid(core->grid);
-		this->SetLabel(fileDlg->GetPath() + " -- Kovel - Voxel Editor");
+		this->LoadFile(fileDlg->GetPath());
 	},wxID_OPEN);
 	
 	wxMenuItem* saveFile=new wxMenuItem(file,wxID_SAVE,"&Save file");
@@ -498,4 +495,13 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	Centre();
 
+}
+
+void MainWindow::LoadFile(wxString path)
+{
+	Core* core=Core::Instance();
+	FILE_PATH=path;
+	core->LoadFile(path.ToStdString());
+	workTwo->UpdateGrid(core->grid);
+	this->SetLabel(path + " -- Kovel - Voxel Editor");
 }
