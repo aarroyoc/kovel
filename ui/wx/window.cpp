@@ -277,9 +277,9 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// - Mime Type
 	
-	// - Command Line Interface
+	// - Command Line Interface - Done
 	
-	// Icon
+	// Icon - WINDOWS
 	
 	// Capturas de pantalla
 	
@@ -484,9 +484,6 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 		aboutInfo.SetCopyright(KOVEL_COPYRIGHT);
 		aboutInfo.SetWebSite(KOVEL_URL);
 		aboutInfo.AddDeveloper(wxString::FromUTF8(std::string("Adrián Arroyo Calle").c_str()));
-		
-		// SetICON
-		// SetLICENSE
 		
 		wxAboutBox(aboutInfo);
 	},wxID_ABOUT);

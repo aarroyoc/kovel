@@ -1,0 +1,3 @@
+build/Kovel usr/bin
+resources/kovel.desktop usr/share/applications
+resources/kovel.png usr/share/pixmaps

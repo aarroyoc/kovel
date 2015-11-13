@@ -1,0 +1,22 @@
+Source: kovel
+Section: graphics
+Priority: optional
+Maintainer: Adrián Arroyo Calle <adrian.arroyocalle@gmail.com>
+Build-Depends: debhelper (>= 9), cmake (>= 3.2), g++, libwxgtk3.0-dev, libwxbase3.0-dev, wx3.0-headers, wx-common, libxml2-utils, python
+Standards-Version: 3.9.6
+Homepage: http://adrianarroyocalle.github.io
+Vcs-Git: git://github.com/AdrianArroyoCalle/kovel
+
+Package: kovel
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: A 3D voxel editor
+ Kovel is a voxel editor. It allows you to build 3D models in a easy way.
+ It reads KVL files and it can export to COLLADA DAE.
+ 
+Package: kovel-cli
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: A 3D voxel editor (command line interface)
+ Command line interface for Kovel. It allows you to build scripts and do
+ Kovel operations from the command line.

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="application/x-kovel-voxel">
+        <comment>Kovel file</comment>
+        <icon name="application/x-kovel-voxel"/>
+        <glob-deleteall/>
+        <glob pattern="*.kvl"/>
+    </mime-type>
+</mime-info>

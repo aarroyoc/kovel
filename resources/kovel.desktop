@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Kovel
+Comment=Voxel editor
+Exec=Kovel %f
+Icon=kovel
+Terminal=false
+Categories=Graphics;3DGraphics;
+MimeType=application/x-kovel-voxel
