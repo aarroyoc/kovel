@@ -1,0 +1,133 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "README" "" "November 2015" "" ""
+.
+.P
+Welcome! Kovel is a 3D voxel editor for Linux and Windows\. Create fantastic models without knowledge\. Just fill the grid with your colors! Save your models in Kovel file (*\.kvl) or in COLLADA DAE \fIhttps://www\.khronos\.org/collada/\fR (only export)\. See changes in your models in realtime, rotate and scale\. Kovel also has infinite undo history (in a same file)\. Kovel has a command line tool (kovelcli) to automate your work pipeline\. Convert all your Kovel files into Collada DAE in a few commands\.
+.
+.SH "Building"
+Kovel requires:
+.
+.IP "\(bu" 4
+wxWidgets 3\.0 or higher
+.
+.IP "\(bu" 4
+CMake 3\.2 or higher
+.
+.IP "\(bu" 4
+OpenGL (current renderer uses OpenGL 1\.0 legacy API, so everything works)
+.
+.IP "\(bu" 4
+C++11 compiler (lambda support)
+.
+.IP "\(bu" 4
+libbson \- in tree
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+git clone https://github\.com/AdrianArroyoCalle/kovel
+cd kovel
+git submodule init
+git submodule update
+.
+.fi
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+sudo apt install cmake g++ libwxgtk3\.0\-dev libwxbase3\.0\-dev wx3\.0\-headers wx\-common
+.
+.fi
+.
+.IP "" 0
+.
+.P
+If you want to run the little test suite, you also need:
+.
+.IP "" 4
+.
+.nf
+
+sudo apt install libxml2\-utils python
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Configure and compile
+.
+.IP "" 4
+.
+.nf
+
+mkdir build
+cd build
+cmake \.\. \-DWX_UI=ON
+make
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Native package:
+.
+.IP "" 4
+.
+.nf
+
+dpkg\-buildpackage \-rfakeroot \-kYOUR_GPG_KEY
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Tests:
+.
+.IP "" 4
+.
+.nf
+
+cd test
+\./test_dae\.sh
+\./test_json\.sh
+.
+.fi
+.
+.IP "" 0
+.
+.SH "Getting it"
+Launchpad PPA:
+.
+.IP "" 4
+.
+.nf
+
+sudo add\-apt\-repository \-y ppa:adrian\-arroyocalle/kovel
+sudo apt update
+sudo apt install kovel kovel\-cli
+.
+.fi
+.
+.IP "" 0
+.
+.SH "Screenshoots"
+
+.
+.SH "Donate"
+PayPal: http://paypal\.me/aarroyoc BitCoin: 1A2j8CwiFEhQ4Uycsjhr3gQPbJxFk1LRmM
+.
+.SH "Command line usage"
+.
+.P
+Example (export as COLLADA DAE) \fBkovelcli \-i File\.kvl \-x dae \-o File\.dae\fR

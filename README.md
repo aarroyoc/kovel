@@ -1,6 +1,8 @@
 # Kovel
 
-![Kovel](resources/kovel.svg)
+![Kovel](resources/kovel.png)
+
+![Travis CI](https://travis-ci.org/AdrianArroyoCalle/kovel.svg)
 
 Welcome! Kovel is a 3D voxel editor for Linux and Windows. Create fantastic models without knowledge. Just fill the grid with your colors! Save your models in Kovel file (*.kvl) or in [COLLADA DAE](https://www.khronos.org/collada/) (only export).
 See changes in your models in realtime, rotate and scale. Kovel also has infinite undo history (in a same file). Kovel has a command line tool (kovelcli) to automate your work pipeline. Convert all your Kovel files into Collada DAE in a few commands.
