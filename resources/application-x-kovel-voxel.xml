@@ -2,7 +2,7 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
     <mime-type type="application/x-kovel-voxel">
         <comment>Kovel file</comment>
-        <icon name="application/x-kovel-voxel"/>
+        <icon name="kovel"/>
         <glob-deleteall/>
         <glob pattern="*.kvl"/>
     </mime-type>
