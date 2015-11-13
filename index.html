@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Kovel by AdrianArroyoCalle</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Kovel</h1>
+        <p>Kovel, a voxel editor for Haiku, Linux and Windows</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/AdrianArroyoCalle/kovel" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/AdrianArroyoCalle/kovel/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/AdrianArroyoCalle/kovel/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>
+<a id="kovel" class="anchor" href="#kovel" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kovel</h1>
+
+<p><img src="resources/kovel.png" alt="Kovel"></p>
+
+<p><img src="https://travis-ci.org/AdrianArroyoCalle/kovel.svg" alt="Travis CI"></p>
+
+<p>Welcome! Kovel is a 3D voxel editor for Linux and Windows. Create fantastic models without knowledge. Just fill the grid with your colors! Save your models in Kovel file (*.kvl) or in <a href="https://www.khronos.org/collada/">COLLADA DAE</a> (only export).
+See changes in your models in realtime, rotate and scale. Kovel also has infinite undo history (in a same file). Kovel has a command line tool (kovelcli) to automate your work pipeline. Convert all your Kovel files into Collada DAE in a few commands.</p>
+
+<h2>
+<a id="building" class="anchor" href="#building" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building</h2>
+
+<p>Kovel requires:</p>
+
+<ul>
+<li>wxWidgets 3.0 or higher</li>
+<li>CMake 3.2 or higher</li>
+<li>OpenGL (current renderer uses OpenGL 1.0 legacy API, so everything works)</li>
+<li>C++11 compiler (lambda support)</li>
+<li>libbson - in tree</li>
+</ul>
+
+<h4>
+<a id="get-the-source" class="anchor" href="#get-the-source" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get the source</h4>
+
+<pre><code>git clone https://github.com/AdrianArroyoCalle/kovel
+cd kovel
+git submodule init
+git submodule update
+</code></pre>
+
+<h4>
+<a id="debianubuntu" class="anchor" href="#debianubuntu" aria-hidden="true"><span class="octicon octicon-link"></span></a>Debian/Ubuntu</h4>
+
+<pre><code>sudo apt install cmake g++ libwxgtk3.0-dev libwxbase3.0-dev wx3.0-headers wx-common
+</code></pre>
+
+<p>If you want to run the little test suite, you also need:</p>
+
+<pre><code>sudo apt install libxml2-utils python
+
+</code></pre>
+
+<p>Configure and compile</p>
+
+<pre><code>mkdir build
+cd build
+cmake .. -DWX_UI=ON
+make
+</code></pre>
+
+<p>Native package:</p>
+
+<pre><code>dpkg-buildpackage -rfakeroot -kYOUR_GPG_KEY
+</code></pre>
+
+<p>Tests:</p>
+
+<pre><code>cd test
+./test_dae.sh
+./test_json.sh
+</code></pre>
+
+<h2>
+<a id="getting-it" class="anchor" href="#getting-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting it</h2>
+
+<p>Launchpad PPA:</p>
+
+<pre><code>sudo add-apt-repository -y ppa:adrian-arroyocalle/kovel
+sudo apt update
+sudo apt install kovel kovel-cli
+</code></pre>
+
+<h2>
+<a id="screenshoots" class="anchor" href="#screenshoots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Screenshoots</h2>
+
+<p><img src="docs/Kovel-1.png" alt="Kovel Basic">
+<img src="docs/BlenderKovel.png" alt="Kovel Blender">
+<img src="docs/KovelRotate.png" alt="Kovel rotate">
+<img src="docs/KovelIcon.png" alt="Kovel Icon"></p>
+
+<h2>
+<a id="donate" class="anchor" href="#donate" aria-hidden="true"><span class="octicon octicon-link"></span></a>Donate</h2>
+
+<p>PayPal: <a href="http://paypal.me/aarroyoc">http://paypal.me/aarroyoc</a>
+BitCoin: 1A2j8CwiFEhQ4Uycsjhr3gQPbJxFk1LRmM</p>
+
+<h2>
+<a id="command-line-usage" class="anchor" href="#command-line-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Command line usage</h2>
+
+<p>|Flag|Description|
+|--|-------------|
+| -h |Show help|
+| -i |Input file|
+| -x |Export as dae,json|
+| -o |Out file|</p>
+
+<p>Example (export as COLLADA DAE)</p>
+
+<pre><code>kovelcli -i File.kvl -x dae -o File.dae
+</code></pre>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/AdrianArroyoCalle">AdrianArroyoCalle</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-20035972-22");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
