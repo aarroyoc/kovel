@@ -275,23 +275,27 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// Open with MIME TYPE Double Click
 	
-	// - Mime Type
+	// - Mime Type - WINDOWS
 	
 	// - Command Line Interface - Done
 	
 	// Icon - WINDOWS
 	
-	// Capturas de pantalla
+	// Capturas de pantalla - Done
 	
 	// Marketing
 	
-	// homepage
+	// homepage - Done
+	
+	// homepage en español
 	
 	// DesdeLinux
 	
+	// Download links
+	
 	// Blog
 	
-	// Documentación man page
+	// Documentación man page - Done
 	
 	// Packaging (Debian, DESKTOP file, Windows MSI, Reg for MIME TYPE and actions)
 	
