@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ ! -f /etc/apt/sources.list.d/kovel.list ]
+then
+	 echo "deb http://ppa.launchpad.net/adrian-arroyocalle/kovel/ubuntu xenial main" > /etc/apt/sources.list.d/kovel.list
+	 apt-get update >> /dev/null 2> /tmp/kovel_apt_add_key.txt
+	 key=$(cat /tmp/kovel_apt_add_key.txt | cut -d":" -f6 | cut -d" " -f3)
+	 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $key
+fi
