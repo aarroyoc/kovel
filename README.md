@@ -1,5 +1,7 @@
 # Kovel
 
+[![Join the chat at https://gitter.im/AdrianArroyoCalle/kovel](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/AdrianArroyoCalle/kovel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![Kovel](resources/kovel.png)
 
 ![Travis CI](https://travis-ci.org/AdrianArroyoCalle/kovel.svg)
