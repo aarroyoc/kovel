@@ -309,7 +309,7 @@ bool Core::ExportAsDAE(std::string filename)
 				Material mat=kv.second;
 				std::string str=mat.name;
 				str.erase (std::remove (str.begin(), str.end(), ' '), str.end());
-			ss << "<effect id=\"Material-effect-" << str << "\">";
+			ss << "<effect id=\"Material-effect-" << str.c_str() << "\">";
 			  ss << "<profile_COMMON>";
 				ss << "<technique sid=\"common\">";
 				  ss << "<phong>";
@@ -344,8 +344,8 @@ bool Core::ExportAsDAE(std::string filename)
 				Material mat=kv.second;
 				std::string str=mat.name;
 				str.erase (std::remove (str.begin(), str.end(), ' '), str.end());
-			ss << "<material id=\"Material-" << str << "\" name=\"Material\">";
-				ss << "<instance_effect url=\"#Material-effect-" << str << "\"/>";
+			ss << "<material id=\"Material-" << str.c_str() << "\" name=\"Material\">";
+				ss << "<instance_effect url=\"#Material-effect-" << str.c_str() << "\"/>";
 			ss << "</material>";
 			}
 		ss << "</library_materials>";
@@ -366,7 +366,7 @@ bool Core::ExportAsDAE(std::string filename)
 										ss << "<technique_common>";
 											std::string str=mat[i][j][k].name;
 											str.erase (std::remove (str.begin(), str.end(), ' '), str.end());
-											ss << "<instance_material symbol=\"Material-" << str << "\" target=\"#Material-" << str << "\"/>";
+											ss << "<instance_material symbol=\"Material-" << str.c_str() << "\" target=\"#Material-" << str.c_str() << "\"/>";
 										ss << "</technique_common>";
 									ss << "</bind_material>";
 								ss << "</instance_geometry>";

@@ -303,6 +303,8 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	// In a future
 	
+	// Translation
+	
 	// (Three panels?)
 	
 	// Panel color
@@ -325,7 +327,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	wxMenu* file=new wxMenu;
 	wxMenuItem* newFile=new wxMenuItem(file,wxID_NEW,"&New file");
 	file->Append(newFile);
-	Bind(wxEVT_MENU,[core,workTwo,this](wxCommandEvent&)->void{
+	Bind(wxEVT_MENU,[core,this](wxCommandEvent&)->void{
 		MetadataDialog* metadata=new MetadataDialog(this,true);
 		if(metadata->ShowModal() == wxID_CANCEL) return;
 		//wxMessageBox(wxString::FromUTF8(metadata->author.c_str()));
@@ -415,7 +417,7 @@ MainWindow::MainWindow() : wxFrame(NULL,-1,"(new file) -- Kovel - Voxel Editor",
 	
 	wxMenu* edit=new wxMenu;
 	edit->Append(wxID_UNDO,"&Undo\tCtrl-Z");
-	Bind(wxEVT_MENU,[workTwo,core](wxCommandEvent&)->void{
+	Bind(wxEVT_MENU,[core](wxCommandEvent&)->void{
 		core->Undo();
 		workTwo->UpdateGrid(core->grid);
 	},wxID_UNDO);
