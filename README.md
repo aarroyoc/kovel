@@ -1,5 +1,7 @@
 # Kovel
 
+[![Join the chat at https://gitter.im/AdrianArroyoCalle/kovel](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/AdrianArroyoCalle/kovel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![Kovel](resources/kovel.png)
 
 ![Travis CI](https://travis-ci.org/AdrianArroyoCalle/kovel.svg)
@@ -62,6 +64,24 @@ cd test
 ./test_json.sh
 ```
 
+#### Windows
+
+```
+# AS ADMIN USER
+choco install 7zip.commandline
+```
+
+```
+mkdir wx
+cd wx
+wget -OutFile wxWidgets-3.0.2_headers.7z https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.2/wxWidgets-3.0.2_headers.7z
+wget -OutFile wxMSW-3.0.2_vc120_x64_Dev.7z https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.2/wxMSW-3.0.2_vc120_x64_Dev.7z
+# Change vc120 for your Visual Studio version and choose between x86 and x64.
+7z x *.7z
+cmake . -G "Visual Studio 12 2013 Win64" -DWX_UI=ON -DwxWidgets_ROOT_DIR="C:\kovel\wx" -DwxWidgets_LIB_DIR="C:\kovel\wx\lib\vc120_x64_dll" && exit 0
+```
+
+Open the Visual Studio solution and build ALL_BUILD
 
 ## Getting it
 
