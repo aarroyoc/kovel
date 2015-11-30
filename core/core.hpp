@@ -61,7 +61,7 @@ class Material{
 		// Accept textures in future
 		std::string name;
 	public:
-		float r,g,b;
+		double r,g,b;
 };
 
 typedef std::vector<std::vector<std::vector<Material>>> Material3D;

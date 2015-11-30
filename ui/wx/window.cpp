@@ -76,15 +76,15 @@ class ToolPanel : public wxPanel{
 class GridPanel : public wxPanel{
 	public:
 		unsigned short GRID_SIZE = 5; // 16 might be the maximum
-		bool** GRID;
+		std::vector<std::vector<bool>> GRID;
 		short zCoord = 0;
 		GridPanel(wxWindow* parent) : wxPanel(parent,wxID_ANY)
 		{
-			GRID=(bool**)malloc(sizeof(bool*) * GRID_SIZE);
-			for(int i=0;i<GRID_SIZE;i++){
-				GRID[i]=(bool*)malloc(sizeof(bool) * GRID_SIZE);
+			GRID.resize(GRID_SIZE);
+			for(short u=0;u<GRID_SIZE;u++){
+				GRID.at(u).resize(GRID_SIZE);
 				for(int j=0;j<GRID_SIZE;j++){
-					GRID[i][j]=false;
+					GRID[u][j]=false;
 				}
 			}
 			SetSize(100,100);
@@ -94,7 +94,7 @@ class GridPanel : public wxPanel{
 			Bind(wxEVT_LEFT_DOWN,&GridPanel::Click,this,-1);
 		}
 		~GridPanel(){
-			free(GRID);
+		
 		}
 		void PaintNow(){
 			wxClientDC dc(this);
@@ -148,14 +148,13 @@ class GridPanel : public wxPanel{
 			GRID_SIZE=g;
 			Core* core=Core::Instance();
 			
-			/*for(int i=0;i<GRID_SIZE;i++){
-				free(GRID[i]);
-			}
-			free(GRID);*/
-			
-			GRID=(bool**)malloc(sizeof(bool*) * GRID_SIZE);
 			for(int i=0;i<GRID_SIZE;i++){
-				GRID[i]=(bool*)malloc(sizeof(bool) * GRID_SIZE);
+				GRID[i].clear();
+			}
+			
+			GRID.resize(GRID_SIZE);
+			for(short i=0;i<GRID_SIZE;i++){
+				GRID.at(i).resize(GRID_SIZE);
 				for(int j=0;j<GRID_SIZE;j++){
 					GRID[i][j]=core->geo->GetGrid(i,zCoord,j);
 				}
