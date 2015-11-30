@@ -16,14 +16,11 @@ class Geometry{
 	public:
 		Geometry(unsigned short grid){
 			this->g=grid;
-			geo=(unsigned short***) malloc(grid*sizeof(unsigned short**));
-			for(short i=0;i<grid;i++){
-				geo[i]=(unsigned short**) malloc(grid*sizeof(unsigned short*));
-				for(short j=0;j<grid;j++){
-					geo[i][j]=(unsigned short*) malloc(grid*sizeof(unsigned short));
-					for(short k=0;k<grid;k++){
-						geo[i][j][k]=(unsigned short)0;
-					}
+			geo.resize(g);
+			for(short u=0;u<g;u++){
+				geo.at(u).resize(g);
+				for(short v=0;v<g;v++){
+					geo.at(u)[v].resize(g);
 				}
 			}
 		}
@@ -34,17 +31,11 @@ class Geometry{
 			return geo[x][y][z];
 		}
 		~Geometry(){
-			for(short i=0;i<this->g;i++){
-				for(short j=0;j<this->g;j++){
-					free(geo[i][j]);
-				}
-				free(geo[i]);
-			}
-			free(geo);
+			
 		}
 		unsigned short g;
 	private:
-		unsigned short*** geo;
+		std::vector<std::vector<std::vector<unsigned short>>> geo;
 };
 
 class Material{
