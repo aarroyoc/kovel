@@ -20,13 +20,13 @@ Core::Core()
 
 Core::~Core()
 {
-	delete geo;
+	//delete geo;
 }
 
 void Core::NewFile(unsigned short g)
 {
 	this->grid=g;
-	delete geo;
+	//delete geo;
 	geo=new Geometry(g);
 	material.clear();
 	undo.clear();
