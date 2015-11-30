@@ -31,3 +31,7 @@ build:
   project: Kovel.vcxproj
   verbosity: normal
 test: off
+artifacts:
+ - path: '**\*.exe'
+   type: zip
+   name: Nightly
