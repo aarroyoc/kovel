@@ -37,7 +37,7 @@ FIND_PACKAGE(OpenGL REQUIRED)
 INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIRS})
 
 IF(HAIKU_UI)
-	TARGET_LINK_LIBRARIES(Kovel be root tracker)
+	TARGET_LINK_LIBRARIES(Kovel be root tracker ${OPENGL_LIBRARIES})
 	# Apply icon and Haiku metadata
 ENDIF()
 
