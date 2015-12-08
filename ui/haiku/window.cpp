@@ -138,8 +138,10 @@ class GridPanel : public BView{
 		}
 };
 
+GridPanel* workSide;
+
 class WorkPanel : public BView{
-	GridPanel* workSide;
+	
 	public:
 		WorkPanel() : BView(NULL,B_WILL_DRAW)
 		{
@@ -154,8 +156,8 @@ class WorkPanel : public BView{
 			workTools->SetViewColor(220,220,220);
 			workTools->SetLayout(workToolsSizer);
 			
-			BButton* up=new BButton("Up",NULL);
-			BButton* down=new BButton("Down",NULL);
+			BButton* up=new BButton("Up",new BMessage(UP));
+			BButton* down=new BButton("Down",new BMessage(DOWN));
 			
 			
 			sizer->AddView(workSide,3);
@@ -173,6 +175,13 @@ class WorkPanel : public BView{
 };
 
 WorkPanel* workTwo;
+PreviewPanel* preview;
+ToolPanel* tool;
+
+/* All options */
+/* mime type */
+/* icono */
+/* Graphical glitches */
 
 KovelWindow::KovelWindow() : BWindow(BRect(30,30,530,530),"(new file) -- Kovel - Voxel Editor",B_TITLED_WINDOW,0)
 {
@@ -189,11 +198,11 @@ KovelWindow::KovelWindow() : BWindow(BRect(30,30,530,530),"(new file) -- Kovel -
 	BView* main=new BView(NULL,B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE | B_FRAME_EVENTS | B_DRAW_ON_CHILDREN);
 	main->SetViewColor(220,220,220);
 	main->SetLayout(mainSizer);
-	ToolPanel* tool=new ToolPanel();
+	tool=new ToolPanel();
 	
 	BView* work=new BView(NULL,B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE | B_FRAME_EVENTS | B_DRAW_ON_CHILDREN);
 	work->SetLayout(workSizer);
-	PreviewPanel* preview=new PreviewPanel();
+	preview=new PreviewPanel();
 	
 	workTwo=new WorkPanel();
 	
@@ -379,6 +388,15 @@ KovelWindow::MessageReceived(BMessage* msg)
 		case UNDO: {
 			core->Undo();
 			workTwo->UpdateGrid(core->grid);
+			break;
+		}
+		case UP: {
+			workSide->UpButton();
+			break;
+		}
+		case DOWN: {
+			workSide->DownButton();
+			break;
 		}
 		default:
 			BWindow::MessageReceived(msg);
