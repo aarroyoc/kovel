@@ -11,8 +11,8 @@ class MetadataDialog : public BWindow{
 		void MessageReceived(BMessage* msg);
 		std::string name;
 		std::string author;
-		BTextView* authorForm;
-		BTextView* nameForm;
+		BTextControl* authorForm;
+		BTextControl* nameForm;
 		BSlider* gridForm;
 		unsigned short gridSize=5;
 		bool n;

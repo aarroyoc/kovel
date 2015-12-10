@@ -7,7 +7,7 @@
 
 const uint32 OK=300, CANCEL=301;
 
-MetadataDialog::MetadataDialog(bool newFile) : BWindow(BRect(100,100,300,300),"Metadata",B_MODAL_WINDOW,0)
+MetadataDialog::MetadataDialog(bool newFile) : BWindow(BRect(100,100,500,300),"Metadata",B_MODAL_WINDOW,0)
 {
 	n=newFile;
 	BView* all=new BView(Bounds(),NULL,B_FOLLOW_ALL_SIDES,B_WILL_DRAW);
@@ -28,7 +28,7 @@ MetadataDialog::MetadataDialog(bool newFile) : BWindow(BRect(100,100,300,300),"M
 	nameLabel->SetFont(&font);
 	
 	this->name=core->name;
-	nameForm=new BTextView(NULL,B_WILL_DRAW);
+	nameForm=new BTextControl(NULL,"","",NULL);
 	nameForm->SetText((newFile) ? "" : this->name.c_str());
 	nameForm->SetExplicitMinSize(BSize(200,10));
 	
@@ -37,7 +37,7 @@ MetadataDialog::MetadataDialog(bool newFile) : BWindow(BRect(100,100,300,300),"M
 	authorLabel->SetFont(&font);
 	
 	this->author=core->author;
-	authorForm=new BTextView(NULL,B_WILL_DRAW);
+	authorForm=new BTextControl(NULL,"","",NULL);
 	authorForm->SetText((newFile) ? "" : this->author.c_str());
 	authorForm->SetExplicitMinSize(BSize(200,10));
 	
