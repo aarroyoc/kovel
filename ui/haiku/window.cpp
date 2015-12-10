@@ -48,7 +48,7 @@ class GridPanel : public BView{
 		unsigned short GRID_SIZE=5;
 		std::vector<std::vector<bool>> GRID;
 		short zCoord=0;
-		GridPanel() : BView(Bounds(),NULL,B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE | B_FRAME_EVENTS | B_DRAW_ON_CHILDREN,0)
+		GridPanel() : BView(NULL,B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE)
 		{
 			SetViewColor(220,220,220);
 			
