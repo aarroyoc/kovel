@@ -38,6 +38,9 @@ INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIRS})
 
 IF(HAIKU_UI)
 	TARGET_LINK_LIBRARIES(Kovel be root tracker ${OPENGL_LIBRARIES})
+	ADD_CUSTOM_COMMAND(TARGET Kovel COMMAND rc -o kovel.rsrc ${CMAKE_CURRENT_SOURCE_DIR}/resources/kovel.rdef COMMENT "Compiling resources")
+	ADD_CUSTOM_COMMAND(TARGET Kovel COMMAND xres -o Kovel kovel.rsrc COMMENT "Adding resources to executable")
+	ADD_CUSTOM_COMMAND(TARGET Kovel COMMAND mimeset --all Kovel COMMENT "Adjusting MIME types")
 	# Apply icon and Haiku metadata
 ENDIF()
 
