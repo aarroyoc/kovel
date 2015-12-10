@@ -388,6 +388,7 @@ KovelWindow::MessageReceived(BMessage* msg)
 		case UNDO: {
 			core->Undo();
 			workTwo->UpdateGrid(core->grid);
+			preview->Render();
 			break;
 		}
 		case UP: {
