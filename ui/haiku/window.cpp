@@ -67,7 +67,7 @@ class GridPanel : public BView{
 		}
 		void Draw(BRect rect){
 			SetDrawingMode(B_OP_COPY);
-			BSize size=rect.Size();
+			BSize size=Bounds().Size();
 			int cellWidth=size.Width()/GRID_SIZE;
 			int cellHeight=size.Height()/GRID_SIZE;
 			for(int i=0;i<GRID_SIZE;i++){
@@ -183,7 +183,7 @@ ToolPanel* tool;
 /* icono */
 /* Graphical glitches */
 
-KovelWindow::KovelWindow() : BWindow(BRect(30,30,530,530),"(new file) -- Kovel - Voxel Editor",B_TITLED_WINDOW,0)
+KovelWindow::KovelWindow() : BWindow(BRect(30,30,330,530),"(new file) -- Kovel - Voxel Editor",B_TITLED_WINDOW,0)
 {
 	Core* core=Core::Instance();
 	
@@ -261,13 +261,13 @@ KovelWindow::CreateMenuBar()
 	BMenuItem* undo=new BMenuItem("Undo",new BMessage(UNDO));
 	undo->SetShortcut('Z',B_COMMAND_KEY);
 	edit->AddItem(undo);
-	BMenuItem* meta=new BMenuItem("Edit metadata",new BMessage(META));
-	edit->AddItem(meta);
+	/*BMenuItem* meta=new BMenuItem("Edit metadata",new BMessage(META));
+	edit->AddItem(meta);*/
 	
 	BMenuItem* clear=new BMenuItem("Clear current grid",new BMessage(CLEARGRID));
 	edit->AddItem(clear);
-	BMenuItem* select=new BMenuItem("Select colour",new BMessage(SELECT_COLOR));
-	edit->AddItem(select);
+	/*BMenuItem* select=new BMenuItem("Select colour",new BMessage(SELECT_COLOR));
+	edit->AddItem(select);*/
 	
 	BMenuItem* about=new BMenuItem("About Kovel",new BMessage(B_ABOUT_REQUESTED));
 	about->SetTarget(be_app);
@@ -396,6 +396,43 @@ KovelWindow::MessageReceived(BMessage* msg)
 		}
 		case DOWN: {
 			workSide->DownButton();
+			break;
+		}
+		case ZOOM_IN: {
+			preview->zoom+=1.0f;
+			preview->Render();
+			break;
+		}
+		case ZOOM_OUT: {
+			preview->zoom-=1.0f;
+			preview->Render();
+			break;
+		}
+		case RLEFT: {
+			preview->rotation+=15;
+			preview->Render();
+			break;
+		}
+		case RRIGHT: {
+			preview->rotation-=15;
+			preview->Render();
+			break;
+		}
+		case CLEARGRID: {
+			workTwo->CleanGrid();
+			preview->Render();
+			break;
+		}
+		case SELECT_COLOR: {
+			int32 color=msg->FindInt32("be:value");
+			color=color/(16*16);
+			float r=((color >> 16) & 0xFF) / 255.0;
+			float g=((color >> 8) & 0xFF) / 255.0;
+			float b=((color) & 0xFF) / 255.0;
+			char COLOR_NAME[1024];
+			sprintf(COLOR_NAME,"%x",color);
+			Material mat(COLOR_NAME,r,g,b);
+			core->SetMaterial(mat);
 			break;
 		}
 		default:
