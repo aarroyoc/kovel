@@ -46,8 +46,19 @@
 
 <p><img src="https://travis-ci.org/AdrianArroyoCalle/kovel.svg" alt="Travis CI"></p>
 
-<p>Welcome! Kovel is a 3D voxel editor for Linux and Windows. Create fantastic models without knowledge. Just fill the grid with your colors! Save your models in Kovel file (*.kvl) or in <a href="https://www.khronos.org/collada/">COLLADA DAE</a> (only export).
+<p>Welcome! Kovel is a 3D voxel editor for Linux, Haiku and Windows. Create fantastic models without knowledge. Just fill the grid with your colors! Save your models in Kovel file (*.kvl) or in <a href="https://www.khronos.org/collada/">COLLADA DAE</a> (only export).
 See changes in your models in realtime, rotate and scale. Kovel also has infinite undo history (in a same file). Kovel has a command line tool (kovelcli) to automate your work pipeline. Convert all your Kovel files into Collada DAE in a few commands.</p>
+
+<p>Features:</p>
+<li>
+	<ul>Reads and saves KVL files, a fast binary format for voxels, based on BSON.</ul>
+	<ul>Exports models to Collada DAE and plain JSON</ul>
+	<ul>Works under Linux, Haiku and Windows (some minor bugs, but still works)</ul>
+	<ul>Custom grid size</ul>
+	<ul>Easy to use</ul>
+	<ul>Free and open source</ul>
+	<ul>Command line interface for scripting</ul>
+</li>
 
 <!-- Kovel - Up -->
 <ins class="adsbygoogle"
@@ -61,7 +72,14 @@ See changes in your models in realtime, rotate and scale. Kovel also has infinit
 	Download
 </h2>
 
-<p><i>Sorry, no downloads available yet</i></p> <!-- UploadBoy, Adf.ly -> GitHub -->
+<p>
+<a href="http://adf.ly/1Us5P4" target="_blank">Kovel 32 bits Debian</a><br>
+<a href="http://adf.ly/1Us5Rm" target="_blank">Kovel 64 bits Debian</a><br>
+<a href="http://adf.ly/1Us5Le" target="_blank">Kovel PPC64EL Debian</a><br>
+<a href="http://adf.ly/1Us5In" target="_blank">Kovel Windows 64 bit</a><br>
+<a href="http://adf.ly/1Us3Tu" target="_blank">Other downloads (source code, command line utility)</a><br>
+<a href="http://ftp.wxwidgets.org/pub/3.0.0/binaries/wxMSW-3.0.0_vc120_x64_ReleaseDLL.msi">Required wxWidgets DLLs for Windows</a>
+</p> <!-- UploadBoy, Adf.ly -> GitHub, Windows  -->
 
 <h2>
 <a id="building" class="anchor" href="#building" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building</h2>
@@ -117,6 +135,19 @@ make
 ./test_json.sh
 </code></pre>
 
+<h4>
+<a id="haiku" class="anchor" href="#haiku" aria-hidden="true"><span class="octicon octicon-link"></span></a>Haiku</h4>
+
+<p>
+Kovel supports Haiku
+</p>
+<pre><code>
+mkdir build
+cd build
+cmake .. -DHAIKU_UI=ON
+make
+</code></pre>
+
 <h2>
 <a id="getting-it" class="anchor" href="#getting-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting it</h2>
 
@@ -141,21 +172,35 @@ sudo apt install kovel kovel-cli
 <p>PayPal: <a href="http://paypal.me/aarroyoc">http://paypal.me/aarroyoc</a>
 BitCoin: <a href="bitcoin:1A2j8CwiFEhQ4Uycsjhr3gQPbJxFk1LRmM">1A2j8CwiFEhQ4Uycsjhr3gQPbJxFk1LRmM</a></p>
 
+<h2><a id="contact" class="anchor" href="#contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contact</h2>
+
+<p>Contact me via email: adrian(DOT)arroyocalle(AT)gmail(DOT)com</p>
+
 <h2>
 <a id="command-line-usage" class="anchor" href="#command-line-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Command line usage</h2>
 
-|Flag|Description|
-<br>
-|--|-------------|
-<br>
-| -h |Show help|
-<br>
-| -i |Input file|
-<br>
-| -x |Export as dae,json|
-<br>
-| -o |Out file|
-<br>
+<table>
+	<tr>
+		<th>Flag</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>-h</td>
+		<td>Show help</td>
+	</tr>
+	<tr>
+		<td>-i</td>
+		<td>Input file</td>
+	</tr>
+	<tr>
+		<td>-x</td>
+		<td>Export as dae,json</td>
+	</tr>
+	<tr>
+		<td>-o</td>
+		<td>Out file</td>
+	</tr>
+</table>
 
 <p>Example (export as COLLADA DAE)</p>
 
