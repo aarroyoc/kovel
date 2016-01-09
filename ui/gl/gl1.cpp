@@ -82,6 +82,10 @@ void GlPreviewer::DrawCube(unsigned short x, unsigned short y, unsigned short z,
 void GlPreviewer::Render(int width, int height, Geometry* geo, Material3D mat, float zoom, float rotation)
 {
 	// USE OLD OPENGL 1 code
+	#ifndef __HAIKU__
+	glClearColor(0.0,0.0,0.0,1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	#endif
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -100,7 +104,9 @@ void GlPreviewer::Render(int width, int height, Geometry* geo, Material3D mat, f
 	glRotatef(rotation,0.0f,1.0f,0.0f);
 	
 	// Draw AXIS
+	#ifdef __HAIKU__
 	glClearColor(0.0,0.0,0.0,1.0);
+	#endif
 	//
 
 	glColor3f(1.0,0.0,0.0);
