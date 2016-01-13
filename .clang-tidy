@@ -1,0 +1,7 @@
+---
+Checks:          'readability-braces-around-statements,misc-macro-parentheses'
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+User:            adrian
+...
+
