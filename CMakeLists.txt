@@ -21,6 +21,9 @@ FILE(GLOB EXPORT_SRC "exporter/*.cpp")
 FILE(GLOB CLI_SRC "cli/*.cpp")
 
 SET(KOVEL_SRC ${CORE_SRC} ${UI_SRC} ${GL_SRC} ${EXPORT_SRC})
+IF(WIN32)
+	LIST(APPEND KOVEL_SRC "resources/kovel.rc")
+ENDIF()
 
 ADD_SUBDIRECTORY(libbson)
 
