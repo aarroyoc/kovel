@@ -120,3 +120,8 @@ kovelcli -i File.kvl -x dae -o File.dae
 ```
 
 
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/AdrianArroyoCalle/kovel/badge.svg?style=beer-square)](https://beerpay.io/AdrianArroyoCalle/kovel)  [![Beerpay](https://beerpay.io/AdrianArroyoCalle/kovel/make-wish.svg?style=flat-square)](https://beerpay.io/AdrianArroyoCalle/kovel?focus=wish)
