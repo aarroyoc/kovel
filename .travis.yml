@@ -1,8 +1,7 @@
 sudo: required
 env:
  - DOCKER_IMAGE="ubuntu:trusty" PKG="DEB"
- - DOCKER_IMAGE="ubuntu:vivid" PKG="DEB"
- - DOCKER_IMAGE="ubuntu:wily" PKG="DEB"
+ - DOCKER_IMAGE="ubuntu:xenial" PKG="DEB"
  - DOCKER_IMAGE="debian:jessie" PKG="DEB"
  - DOCKER_IMAGE="debian:sid" PKG="DEB"
  - DOCKER_IMAGE="fedora:23" PKG="DNF"
@@ -31,7 +30,6 @@ script:
 matrix:
  allow_failures:
   - env: DOCKER_IMAGE="ubuntu:trusty" PKG="DEB"
-  - env: DOCKER_IMAGE="ubuntu:vivid" PKG="DEB"
   - env: DOCKER_IMAGE="debian:jessie" PKG="DEB"
   - env: DOCKER_IMAGE="fedora:23" PKG="DNF"
   - env: DOCKER_IMAGE="fedora:22" PKG="DNF"
